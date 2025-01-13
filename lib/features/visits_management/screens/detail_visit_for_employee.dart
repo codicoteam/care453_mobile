@@ -1,6 +1,8 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/features/observation_management/screens/add_observation_dialog.dart';
+import 'package:care453/features/patientvitals/screens/add_patient_vitals_dialog.dart';
+import 'package:care453/features/patientvitals/screens/patient_vitals_on_visit.dart';
 import 'package:care453/features/visits_management/screens/tabs/task/task_assigned_screens.dart';
 import 'package:care453/models/visit_model.dart';
 import 'package:care453/widgets/success/success_submission.dart';
@@ -11,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'close_visit_dialogs.dart/first_close_tab.dart';
+import 'start_visit/start_visit_dialog_employee.dart';
 import 'tabs/medication/medication_assigned_screen.dart';
 import 'tabs/observation/observation_screens.dart';
 
@@ -76,8 +79,12 @@ class _DetailVisitForEmployeeState extends State<DetailVisitForEmployee>
                   );
                   print("Add Observation selected");
                 } else if (value == "Add Patient Vitals") {
-                  // Perform action for "Add Patient Vitals"
-                  print("Add Patient Vitals selected");
+                  Get.dialog(
+                    AddPatientVitalsDialog(
+                      visitModel: widget.visitModel,
+                    ),
+                    barrierDismissible: false,
+                  );
                 } else if (value == "Close Visit") {
                   Get.dialog(
                     FirstCloseTabDialog(
@@ -106,6 +113,44 @@ class _DetailVisitForEmployeeState extends State<DetailVisitForEmployee>
                 PopupMenuItem(
                   value: "Close Visit",
                   child: Text("Close Visit"),
+                ),
+              ],
+            ),
+          if (widget.visitModel.status == "Confirmed")
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                // Handle menu item selection
+                if (value == "Start Visit") {
+                  Get.dialog(
+                    StartVisitDialogEmployee(
+                      visitModel: widget.visitModel,
+                    ),
+                    barrierDismissible: false,
+                  );
+                  print("Add Observation selected");
+                } else if (value == "Add Patient Vitals") {
+                  // Perform action for "Add Patient Vitals"
+                  print("Add Patient Vitals selected");
+                } else if (value == "Close Visit") {
+                  Get.dialog(
+                    FirstCloseTabDialog(
+                      visitModel: widget.visitModel,
+                    ),
+                    barrierDismissible: false,
+                  );
+                  print("Add Patient Vitals selected");
+                  // Perform action for "Add Patient Vitals"
+                  print("Close Visit");
+                }
+              },
+              icon: Icon(
+                Icons.more_vert,
+                color: Pallete.whiteColor, // Replace with your color variable
+              ),
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem(
+                  value: "Start Visit",
+                  child: Text("Start Visit"),
                 ),
               ],
             ),
@@ -316,7 +361,7 @@ class _DetailVisitForEmployeeState extends State<DetailVisitForEmployee>
         ObservationScreens(
           visitId: "${widget.visitModel.id}",
         ),
-        VitalRecordedTab(),
+        PatientVitalsOnVisit(visitModel: widget.visitModel,),
       ]),
     );
   }

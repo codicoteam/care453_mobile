@@ -1,5 +1,6 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
+import 'package:care453/features/visits_management/screens/start_visit/start_visit_dialog_client.dart';
 import 'package:care453/features/visits_management/screens/tabs/task/task_assigned_screens.dart';
 import 'package:care453/models/visit_model.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../patientvitals/screens/patient_vitals_on_visit.dart';
 import 'confirm_visit_dialog.dart';
 import 'tabs/medication/medication_assigned_screen.dart';
 import 'tabs/observation/observation_screens.dart';
@@ -45,7 +47,7 @@ class _DetailVisitState extends State<DetailVisit>
       case 'Scheduled':
         return ['View', 'Confirm', 'Reschedule'];
       case 'Confirmed':
-        return ['View', 'Qr Code'];
+        return ['View', 'Start Visit'];
       case 'Ongoing':
         return ['View'];
       case 'Completed':
@@ -87,6 +89,11 @@ class _DetailVisitState extends State<DetailVisit>
               print('Selected: $value');
               if (value == 'Confirm') {
                 Get.dialog(ConfirmVisitDialog(
+                  visitModel: widget.visitModel,
+                ));
+              }
+              if (value == 'Start Visit') {
+                Get.dialog(StartVisitDialogClient(
                   visitModel: widget.visitModel,
                 ));
               }
@@ -292,7 +299,7 @@ class _DetailVisitState extends State<DetailVisit>
                                 Tab(text: 'Observations'),
                                 Tab(text: 'Vitals Recorded'),
                               ]
-                            : const [
+                            : [
                                 Tab(text: 'Task Assigned'),
                                 Tab(text: 'Medication'),
                               ],
@@ -316,7 +323,9 @@ class _DetailVisitState extends State<DetailVisit>
                 ObservationScreens(
                   visitId: "${widget.visitModel.id}",
                 ),
-                VitalRecordedTab(),
+                PatientVitalsOnVisit(
+                  visitModel: widget.visitModel,
+                ),
               ]
             : [
                 TaskAssignedScreens(

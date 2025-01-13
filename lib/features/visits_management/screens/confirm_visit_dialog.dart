@@ -73,6 +73,8 @@ class _ConfirmVisitDialogState extends State<ConfirmVisitDialog> {
                   fontWeight: FontWeight.w400,
                 ),
               ),
+              const SizedBox(height: 15),
+
               // Submit Button
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +125,7 @@ class _ConfirmVisitDialogState extends State<ConfirmVisitDialog> {
                     },
                     btnColor: Pallete.originBlue,
                     child: const Text(
-                      'Submit Observation',
+                      'Confirm Visit',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

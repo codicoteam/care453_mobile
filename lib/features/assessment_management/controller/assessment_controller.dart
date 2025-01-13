@@ -16,8 +16,9 @@ class AssessmentController extends GetxController {
     try {
       isLoading(true); // Start loading
       final response =
-          await AssessmentService.fetchAssementByEmployeeId(employeeId);
+          await AssessmentService.fetchAssessmentByEmployeeId(employeeId);
       if (response.success) {
+
         assessments.value = response.data ?? [];
         successMessage.value =
             response.message ?? 'Shuttle loaded successfully';

@@ -1,103 +1,110 @@
-import 'package:care453/core/utils/colors/pallete.dart';
-import 'package:care453/widgets/custom_description.dart';
-import 'package:care453/widgets/general_button.dart';
+import 'package:care453/models/patient_vitals_model.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../helpers/observation_helper.dart';
-class AddParkingBayDialog extends StatefulWidget {
-  const AddParkingBayDialog({super.key});
-  @override
-  State<AddParkingBayDialog> createState() => _AddParkingBayDialogState();
-}
-class _AddParkingBayDialogState extends State<AddParkingBayDialog> {
-  List<String>? uploadedImageUrl;
-  final TextEditingController _descriptionontroller = TextEditingController();
-  final ObservationHelper observationHelper = ObservationHelper();
+
+import '../../core/utils/colors/pallete.dart';
+
+class _LineChart extends StatelessWidget {
+    final List<PatientVitalsModel> patientVitalModels;
+
+  const _LineChart({required this.isShowingMainData, required this.patientVitalModels});
+  final bool isShowingMainData;
+
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      alignment: Alignment.bottomCenter,
-      insetPadding: EdgeInsets.zero,
-      shadowColor: Colors.grey.withOpacity(0.2),
-      child: Container(
-        width: double.maxFinite,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 10,
-            )
-          ],
+    return LineChart(
+      sampleData1,
+      duration: const Duration(milliseconds: 250),
+    );
+  }
+
+  LineChartData get sampleData1 => LineChartData(
+        lineTouchData: lineTouchData1,
+        gridData: gridData,
+        titlesData: titlesData1,
+        borderData: borderData,
+        lineBarsData: lineBarsData1,
+        minX: 0,
+        maxX: 100,
+        maxY: 200,
+        minY: 35,
+      );
+
+  LineTouchData get lineTouchData1 => LineTouchData(
+        handleBuiltInTouches: true,
+        touchTooltipData: LineTouchTooltipData(
+          getTooltipColor: (touchedSpot) => Colors.white,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
-GestureDetector(
-                      onTap: () {
-                        observationHelper.showImagePickerDialog((url) {
-                          setState(() {
-                            uploadedImageUrl = url;
-                          });
-                        });
-                        setState(() {
-                          uploading = true;
-                        });
-                      },
-                      child: Container(
-                        height: 50,
-                        padding: EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: Pallete.whiteColor,
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/images/profile-two.png",
-                              width: 30,
-                              height: 30,
-                              color: Pallete.lightPrimaryTextColor,
-                            ),
-                            SizedBox(width: 20),
-                            Text(
-                              "Set Picture",
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey.shade700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-             // Submit Button
-              GeneralButton(
-                onTap: () { 
-                },
-                btnColor: Pallete.primaryColor,
-                child: const Text(
-                  'Submit Parking Bay',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ).animate().fadeIn(duration: 650.ms),
-            ],
-          ),
-        ),
+      );
+
+ 
+  List<LineChartBarData> get lineBarsData1 => [
+        lineChartBarData1_1,
+        lineChartBarData1_2,
+      ];
+
+  LineTouchData get lineTouchData2 => const LineTouchData(
+        enabled: false,
+      );
+
+
+
+    return SideTitleWidget(
+      axisSide: AxisSide.right, // Replace with the correct AxisSide value
+      child: Text(
+        text,
+        style: style,
+        textAlign: TextAlign.center,
       ),
     );
   }
+
+  SideTitles leftTitles() => SideTitles(
+        getTitlesWidget: leftTitleWidgets,
+        showTitles: true,
+        interval: 1,
+        reservedSize: 40,
+      );
+
+
+  LineChartBarData get lineChartBarData1_1 => LineChartBarData(
+        isCurved: true,
+        color: Pallete.redColor,
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(show: false),
+        belowBarData: BarAreaData(show: false),
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(3, 1.5),
+          FlSpot(5, 1.4),
+          FlSpot(7, 3.4),
+          FlSpot(10, 2),
+          FlSpot(12, 2.2),
+          FlSpot(13, 1.8),
+        ],
+      );
+
+  LineChartBarData get lineChartBarData1_2 => LineChartBarData(
+        isCurved: true,
+        color: Pallete.success,
+        barWidth: 8,
+        isStrokeCapRound: true,
+        dotData: const FlDotData(show: false),
+        belowBarData: BarAreaData(
+          show: false,
+          color: Pallete.purle,
+        ),
+        spots: const [
+          FlSpot(1, 1),
+          FlSpot(3, 2.8),
+          FlSpot(7, 1.2),
+          FlSpot(10, 2.8),
+          FlSpot(12, 2.6),
+          FlSpot(13, 3.9),
+        ],
+      );
 }

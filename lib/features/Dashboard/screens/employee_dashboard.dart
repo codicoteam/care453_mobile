@@ -10,6 +10,7 @@ import '../../../widgets/customer_animation/fade_in_slide.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../widgets/drawer_employee.dart';
 import '../../assessment_management/screens/all_assessment_screen.dart';
+import '../../runner_management/screens/all_runner_employee_screen.dart';
 import '../../view_care_professionals/screens/view_all_employee_screen.dart';
 
 class CareProfessionalHome extends StatefulWidget {
@@ -586,7 +587,7 @@ class _CareProfessionalHomeState extends State<CareProfessionalHome> {
                               const EdgeInsets.only(right: 3, left: 3, top: 5),
                           child: GestureDetector(
                             onTap: () {
-                              Get.to(ViewAllEmployeeScreen());
+                              Get.to(AllRunnerEmployeeScreen());
                               // GeneralHelpers.temporaryNavigator(
                               //     context, ViewAllAvailable());
                             },
@@ -637,7 +638,7 @@ class _CareProfessionalHomeState extends State<CareProfessionalHome> {
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
                                               child: Image.asset(
-                                                LocalImageConstants.patient,
+                                                LocalImageConstants.runners,
                                                 width: 10,
                                                 height: 10,
                                                 fit: BoxFit.cover,
@@ -650,7 +651,7 @@ class _CareProfessionalHomeState extends State<CareProfessionalHome> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "All Clients",
+                                        "My Runners",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 14,

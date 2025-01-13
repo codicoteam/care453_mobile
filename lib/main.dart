@@ -9,6 +9,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'features/appointments/controllers/appointment_controller.dart';
+import 'features/patientvitals/controllers/patient_vitals_controllers.dart';
+import 'features/runner_management/controller/runner_controller.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -20,6 +23,9 @@ void main() async{
     Get.put(ViewProfessionalController());
     Get.put(VisitController());
     Get.put(AssessmentController());
+    Get.put(RunnerController());
+    Get.put(AppointmentController());
+    Get.put(PatientVitalsControllers());
 
   runApp(
        MultiProvider(

@@ -1,16 +1,11 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/features/assessment_management/controller/assessment_controller.dart';
-import 'package:care453/features/visits_management/controller/visit_controller.dart';
-import 'package:care453/features/visits_management/screens/detail_visit.dart';
 import 'package:care453/widgets/cards/assessment_card.dart';
-import 'package:care453/widgets/cards/visit_card.dart';
-import 'package:care453/widgets/cards/visit_card_for_employee.dart';
 import 'package:care453/widgets/custom_text_field.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../core/utils/colors/pallete.dart';
 import '../../../widgets/error_widgets/error_widget.dart';
 import '../../../widgets/loaders/loader_widget.dart';
@@ -18,7 +13,6 @@ import 'answer_assessment_dialog.dart';
 
 class AllAssessmentScreen extends StatefulWidget {
   const AllAssessmentScreen({super.key});
-
   @override
   State<AllAssessmentScreen> createState() => _AllAssessmentScreenState();
 }
@@ -131,7 +125,6 @@ class _AllAssessmentScreenState extends State<AllAssessmentScreen>
           if (assessmemtController.isLoading.value) {
             return const VehicleLoader();
           }
-
           if (assessmemtController.errorMessage.isNotEmpty) {
             return ApiFailureWidget(onRetry: () {
               assessmemtController.errorMessage.value = "";
@@ -139,24 +132,17 @@ class _AllAssessmentScreenState extends State<AllAssessmentScreen>
                   .getAllAllAssessmentForEmployee("6763fbc6d9c0556eaea94214");
             });
           }
+          final filteredAssessments =
+              assessmemtController.assessments.where((assessment) {
+            if (_selectedStatus == 'Not Answered') {
+              return assessment.answer == "N/A";
+            } else if (_selectedStatus == 'Answered') {
+              return assessment.answer != "N/A";
+            }
+            return true; // For "All", include all assessments
+          }).toList();
 
-          // final filteredTrips =
-          //     assessmemtController.assessments.where((employeeModel) {
-          //   final categoryMatch = _selectedStatus == 'All' ||
-          //       (employeeModel.status ?? '').toLowerCase() ==
-          //           _selectedStatus.toLowerCase();
-
-          //   final searchMatch = _searchQuery.isEmpty ||
-          //       (employeeModel.careProfessionalId!.firstName ?? '')
-          //           .toLowerCase()
-          //           .contains(_searchQuery.toLowerCase()) ||
-          //       (employeeModel.careProfessionalId!.lastName ?? '')
-          //           .toLowerCase()
-          //           .contains(_searchQuery.toLowerCase());
-
-          //   return categoryMatch && searchMatch;
-          // }).toList();
-          return assessmemtController.assessments.isEmpty
+          return filteredAssessments.isEmpty
               ? const EmptyStateWidget(
                   icon: LocalImageConstants.notFoundIcon,
                   title: 'No Requests Found',
@@ -169,11 +155,10 @@ class _AllAssessmentScreenState extends State<AllAssessmentScreen>
                       .refreshSsessments("6763fbc6d9c0556eaea94214"),
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16),
-                    itemCount: assessmemtController.assessments.length,
+                    itemCount: filteredAssessments.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
-                      final assessment =
-                          assessmemtController.assessments[index];
+                      final assessment = filteredAssessments[index];
                       return AssessmentCard(
                         assessmentModel: assessment,
                         onTap: () {

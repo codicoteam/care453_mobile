@@ -1,6 +1,7 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/features/Home/admin_main_home.dart';
+import 'package:care453/features/auth/Handler/auth_handler.dart';
 import 'package:care453/models/visit_model.dart';
 import 'package:care453/widgets/custom_description.dart';
 import 'package:care453/widgets/general_button.dart';
@@ -55,7 +56,6 @@ class _ErrorSubmissionState extends State<ErrorSubmission> {
               const SizedBox(height: 30),
               Image.asset(
                 LocalImageConstants.errorWarning,
-                color: Pallete.originBlue,
                 width: 200,
                 height: 200,
               ),
@@ -73,7 +73,7 @@ class _ErrorSubmissionState extends State<ErrorSubmission> {
               const SizedBox(height: 16),
               GestureDetector(
                   onTap: () {
-                    Get.to(EmployeeMainScreen());
+                    Get.to(AuthHandler());
                   },
                   child: Container(
                     height: 45,

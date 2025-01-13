@@ -1,19 +1,13 @@
 import 'dart:io';
 
-import 'package:care453/core/helpers/genenal_helpers.dart';
-import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
-import 'package:care453/features/Home/client_main_screen.dart';
 import 'package:care453/features/observation_management/controller/observation_controller.dart';
-import 'package:care453/widgets/custom_button.dart';
 import 'package:care453/widgets/custom_loader.dart';
 import 'package:firebase_auth/firebase_auth.dart' as FireUser;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

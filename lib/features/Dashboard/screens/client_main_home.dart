@@ -1,4 +1,6 @@
+import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
+import 'package:care453/features/appointments/screens/appointment_all_screen.dart';
 import 'package:care453/widgets/customer_animation/fade_in_animation.dart';
 import 'package:care453/widgets/customer_animation/rightbounce_animation.dart';
 import 'package:care453/widgets/drawer.dart';
@@ -582,16 +584,13 @@ class _ClientDashboardState extends State<ClientDashboard> {
                       shrinkWrap: true,
                       childAspectRatio:
                           1.3, // Adjust the value to change the height of the widgets
-
                       children: [
                         Padding(
                           padding:
                               const EdgeInsets.only(right: 3, left: 3, top: 5),
                           child: GestureDetector(
                             onTap: () {
-                              Get.to(ViewAllEmployeeScreen());
-                              // GeneralHelpers.temporaryNavigator(
-                              //     context, ViewAllAvailable());
+                              Get.to(AllAppointmentForClient());
                             },
                             child: Container(
                                 decoration: BoxDecoration(
@@ -640,7 +639,7 @@ class _ClientDashboardState extends State<ClientDashboard> {
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
                                               child: Image.asset(
-                                                'assets/images/care_professional.png',
+                                                LocalImageConstants.appointment,
                                                 width: 10,
                                                 height: 10,
                                                 fit: BoxFit.cover,
@@ -653,7 +652,7 @@ class _ClientDashboardState extends State<ClientDashboard> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Care Professionals",
+                                        "Appointments",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 14,
@@ -750,7 +749,11 @@ class _ClientDashboardState extends State<ClientDashboard> {
                           padding:
                               const EdgeInsets.only(right: 3, left: 3, top: 5),
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(ViewAllEmployeeScreen());
+                              // GeneralHelpers.temporaryNavigator(
+                              //     context, ViewAllAvailable());
+                            },
                             child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
@@ -798,7 +801,7 @@ class _ClientDashboardState extends State<ClientDashboard> {
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
                                               child: Image.asset(
-                                                'assets/images/bill.png',
+                                                'assets/images/care_professional.png',
                                                 width: 10,
                                                 height: 10,
                                                 fit: BoxFit.cover,
@@ -811,7 +814,7 @@ class _ClientDashboardState extends State<ClientDashboard> {
                                         height: 5,
                                       ),
                                       Text(
-                                        "Bills",
+                                        "Care Professionals",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 14,

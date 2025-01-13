@@ -120,12 +120,10 @@ class VisitHelper {
       );
 
       if (!visitSuccess) {
-        // If visit update fails, log and return false
         DevLogs.logError('Failed to update visit: ${visitModel.id}');
         return false;
       }
 
-      // Show a success notification
       Get.snackbar(
         'Success',
         "You have successfully done your task",

@@ -27,13 +27,13 @@ class _InitialRoleSelectionScreenState
     RoleOption(
       id: UserRole.client,
       title: 'Client',
-      icon: FontAwesomeIcons.car,
+      icon: FontAwesomeIcons.person,
       description: 'Easily manage and schedule your home care services',
     ),
     RoleOption(
       id: UserRole.careProfessioner,
       title: 'Care Professional',
-      icon: FontAwesomeIcons.shieldAlt,
+      icon: FontAwesomeIcons.userNurse,
       description: 'Comprehensive tools to provide quality care',
     ),
   ];

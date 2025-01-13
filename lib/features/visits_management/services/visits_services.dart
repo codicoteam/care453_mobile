@@ -12,7 +12,7 @@ import '../../../models/get_task_model.dart';
 class VisitsServices {
   static Future<APIResponse<List<VisitModel>>> fetchVisitsForClient() async {
     const String url =
-        '${ApiKeys.baseUrl}/visit_route/client/676e53996f7015cbeceb8f69';
+        '${ApiKeys.baseUrl}/visit_route/client/676297d66ec829a1a595dca6';
     const headers = {
       'Authorization':
           'Bearer ${ApiKeys.bearerTokent}'

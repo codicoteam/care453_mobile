@@ -1,13 +1,14 @@
 import 'dart:convert';
+import 'package:care453/core/constants/api_keys.dart';
 import 'package:care453/core/utils/api_response/ap_response.dart';
 import 'package:care453/models/employee_model.dart';
 import 'package:http/http.dart' as http;
 
 class ViewProfessionalService {
   static Future<APIResponse<List<EmployeeModel>>> getAllEmployees() async {
-    const String url = 'https://care-give-backend.onrender.com/api/v1/employee/getallemployees';
+    const String url = '${ApiKeys.baseUrl}/employee/getallemployees';
     const headers = {
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NjNiOTAyMjBlYTdkMGU3ODI0MGM0ZSIsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzUyMDczNjMsImV4cCI6MTczNTIxNDU2M30.tuEvDeeI442EM_Xj4Kow6WFotg1kBO9Y2UPme0lVTdo'
+      'Authorization': 'Bearer ${ApiKeys.bearerTokent}'
     };
 
     try {

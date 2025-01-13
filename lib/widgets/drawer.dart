@@ -11,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
 
+import '../features/patientvitals/screens/dashboard_patient_vitals.dart';
 import '../features/splash/role_selection.dart';
 
 class DrawerComponent2 extends StatelessWidget {
@@ -153,7 +154,7 @@ class DrawerComponent2 extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClientMany()));
+                  Get.to(DashboardPatientVitals());
               },
             ),
             ListTile(

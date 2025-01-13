@@ -4,16 +4,15 @@ import 'package:care453/core/utils/api_response/ap_response.dart';
 import 'package:care453/core/utils/logs.dart';
 import 'package:care453/models/assesment_model.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../models/get_task_model.dart';
 
 class AssessmentService {
-  static Future<APIResponse<List<AssessmentModel>>> fetchAssementByEmployeeId(
+  static Future<APIResponse<List<AssessmentModel>>> fetchAssessmentByEmployeeId(
       String employeeId) async {
     final String url =
-        '${ApiKeys.baseUrl}/asessment_route/employee/$employeeId'; // Changed to `final`
+        '${ApiKeys.baseUrl}/asessment_route/employee/$employeeId';
     final headers = {
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}' // Changed to `final`
+      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
     };
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
@@ -24,15 +23,15 @@ class AssessmentService {
 
         if (jsonResponse.containsKey('data') && jsonResponse['data'] is List) {
           List<dynamic> data = jsonResponse['data'];
-          // Convert the data into a list of AssessmentModel objects
-          List<AssessmentModel> assessments = data
+          // Convert the data into a list of VisitModel objects
+          List<AssessmentModel> visits = data
               .map((visit) =>
                   AssessmentModel.fromMap(visit as Map<String, dynamic>))
               .toList();
           return APIResponse<List<AssessmentModel>>(
-            data: assessments,
+            data: visits,
             success: true,
-            message: 'assessments retrieved successfully',
+            message: 'Visits retrieved successfully',
           );
         } else {
           return APIResponse<List<AssessmentModel>>(
@@ -44,8 +43,7 @@ class AssessmentService {
       } else {
         return APIResponse<List<AssessmentModel>>(
           success: false,
-          message:
-              'Failed to load assessments. HTTP Status: ${response.statusCode}',
+          message: 'Failed to load visits. HTTP Status: ${response.statusCode}',
         );
       }
     } catch (e) {
@@ -64,8 +62,7 @@ class AssessmentService {
         '${ApiKeys.baseUrl}/asessment_route/update/${assessmentModel.id}';
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
     };
     final body = json.encode({
       "employeeId": assessmentModel.employeeId!.id!,

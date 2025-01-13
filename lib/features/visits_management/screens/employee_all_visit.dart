@@ -27,7 +27,6 @@ class _ViewAllVisitsForEmployeeState extends State<ViewAllVisitsForEmployee>
   final visitController = Get.find<VisitController>();
   final TextEditingController _searchController = TextEditingController();
   late TabController _tabController;
-
   final List<String> _requestStatus = [
     'All',
     'Scheduled',
@@ -35,7 +34,6 @@ class _ViewAllVisitsForEmployeeState extends State<ViewAllVisitsForEmployee>
     'Ongoing',
     'Completed',
   ];
-
   String _selectedStatus = 'All';
   final String _searchQuery = '';
   @override
