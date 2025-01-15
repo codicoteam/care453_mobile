@@ -1,22 +1,16 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
-import 'package:care453/features/visits_management/screens/start_visit/start_visit_dialog_client.dart';
-import 'package:care453/features/visits_management/screens/tabs/task/task_assigned_screens.dart';
-import 'package:care453/models/visit_model.dart';
-import 'package:care453/widgets/dashboards_widget/dashboard_line_chart.dart';
+import 'package:care453/widgets/cards/patient_vitals_card_dashboard.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:care453/widgets/error_widgets/error_widget.dart';
 import 'package:care453/widgets/loaders/loader_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:care453/widgets/dashboards_widget/line_chart.dart';
-import '../../patientvitals/screens/patient_vitals_on_visit.dart';
 import '../controllers/patient_vitals_controllers.dart';
+import 'view_patient_vitals_details_dialog.dart';
 
 class DashboardPatientVitals extends StatefulWidget {
   const DashboardPatientVitals({
@@ -103,24 +97,62 @@ class _DashboardPatientVitalsState extends State<DashboardPatientVitals>
                 color: Pallete.originBlue,
                 onRefresh: () => patientVitalsController
                     .refreshPatientVitalsForClient("676297d66ec829a1a595dca6"),
-                child: Container(
-                  color: Colors.transparent,
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
-                          height: 500, // Constrain height for the ListView
+                          height: 500,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: [
                               SizedBox(
-                                height:
-                                    500, // Constrain height for LineChartSample1
-                                child: LineChartSample1(patientVitalModels: patientVitalsController.patientVitals,),
+                                height: 500,
+                                child: LineChartSample1(
+                                  patientVitalModels:
+                                      patientVitalsController.patientVitals,
+                                ),
                               ),
                             ],
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Vitals on Line Graph',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Pallete.originBlue,
+                                  ),
+                            ),
+                          ],
+                        ).animate().fadeIn(duration: 300.ms),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: patientVitalsController.patientVitals
+                              .map((patientVitalsModel) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: PatientVitalsCardDashboard(
+                                patientVitals: patientVitalsModel,
+                                onTap: () {
+                                  Get.dialog(ViewPatientVitalsDetailsDialog(
+                                    patientVitalsModel: patientVitalsModel,
+                                  ));
+                                },
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ],
@@ -128,50 +160,6 @@ class _DashboardPatientVitalsState extends State<DashboardPatientVitals>
                 ),
               );
       }),
-    );
-  }
-}
-
-class TripHistoryTab extends StatelessWidget {
-  const TripHistoryTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Trip History'),
-    );
-  }
-}
-
-class VitalRecordedTab extends StatelessWidget {
-  const VitalRecordedTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Vitals Requests'),
-    );
-  }
-}
-
-class RatingsTab extends StatelessWidget {
-  const RatingsTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Ratings'),
-    );
-  }
-}
-
-class VehicleClassesTab extends StatelessWidget {
-  const VehicleClassesTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Recorded Vital Signs'),
     );
   }
 }

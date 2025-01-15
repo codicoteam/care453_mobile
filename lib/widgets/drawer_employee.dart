@@ -9,7 +9,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import '../features/payment_management/screens/employee_payment_main_screen.dart';
 import '../features/splash/role_selection.dart';
+
 class DrawerEmployee extends StatelessWidget {
   DrawerEmployee({super.key});
 
@@ -88,7 +90,6 @@ class DrawerEmployee extends StatelessWidget {
               height: 5,
             ),
 
-
             ListTile(
               leading: Container(
                 height: 35,
@@ -166,14 +167,16 @@ class DrawerEmployee extends StatelessWidget {
                 ),
               ),
               title: Text(
-                'My Rewards',
+                'My Incomes',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   // color: appColors.white,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Get.to(EmployeePaymentMainScreen());
+              },
             ),
             ListTile(
                 leading: Container(

@@ -127,8 +127,8 @@ class _LineChart extends StatelessWidget {
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontWeight: FontWeight.normal,
+      fontSize: 12,
     );
     Widget text;
     switch (value.toInt()) {
@@ -138,10 +138,24 @@ class _LineChart extends StatelessWidget {
       case 3:
         text = const Text('3', style: style);
         break;
-
+      case 6:
+        text = const Text('6', style: style);
+      case 9:
+        text = const Text('9', style: style);
+      case 12:
+        text = const Text('12', style: style);
+      case 14:
+        text = const Text('15', style: style);
+      case 18:
+        text = const Text('18', style: style);
+      case 21:
+        text = const Text('21', style: style);
+      case 24:
+        text = const Text('24', style: style);
+      case 27:
+        text = const Text('27', style: style);
       case 30:
         text = const Text('30', style: style);
-
       case 45:
         text = const Text('45', style: style);
       case 60:
@@ -269,7 +283,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                   ),
                   Center(
                     child: Text(
-                      "Dates",
+                      "Number of Patient Vitals Recorded",
                       style: GoogleFonts.poppins(
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
@@ -285,8 +299,8 @@ class LineChartSample1State extends State<LineChartSample1> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 16,
-                        height: 16,
+                        width: 10,
+                        height: 10,
                         decoration: BoxDecoration(
                           color: Pallete.success,
                           shape: BoxShape.circle,
@@ -318,8 +332,8 @@ class LineChartSample1State extends State<LineChartSample1> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 16,
-                        height: 16,
+                        width: 10,
+                        height: 10,
                         decoration: BoxDecoration(
                           color: Pallete.redColor,
                           shape: BoxShape.circle,
