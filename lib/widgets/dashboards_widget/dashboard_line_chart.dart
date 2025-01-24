@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 class DashboardPieChartCard extends StatefulWidget {
   final String title;
+  final String expectedTotal;
   final IconData icon;
   final List<DashboardDataItem> data;
   final VoidCallback? onTap;
@@ -14,7 +15,7 @@ class DashboardPieChartCard extends StatefulWidget {
     required this.title,
     required this.icon,
     required this.data,
-    this.onTap,
+    this.onTap, required this.expectedTotal,
   });
 
   @override
@@ -39,7 +40,7 @@ class _DashboardPieChartCardState extends State<DashboardPieChartCard> {
         ),
       ],
       child: Container(
-        width: 280,
+        width: 380,
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -98,21 +99,7 @@ class _DashboardPieChartCardState extends State<DashboardPieChartCard> {
       children: [
         Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Pallete.primaryColor.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                widget.icon,
-                color: Pallete.primaryColor,
-                size: 20,
-              ),
-            ).animate().scale(
-              duration: 500.ms,
-              curve: Curves.elasticOut,
-            ),
+          
             const SizedBox(width: 12),
             Text(
               widget.title,
@@ -124,15 +111,9 @@ class _DashboardPieChartCardState extends State<DashboardPieChartCard> {
             ),
           ],
         ),
-        const Icon(
-          Icons.more_vert_rounded,
-          color: Colors.grey,
-          size: 24,
-        ),
       ],
     );
   }
-
   Widget _buildPieChart(int total) {
     return SizedBox(
       height: 160,
@@ -151,7 +132,7 @@ class _DashboardPieChartCardState extends State<DashboardPieChartCard> {
                   });
                 },
               ),
-              centerSpaceRadius: 40,
+              centerSpaceRadius: 60,
               sections: _generatePieChartSections(total),
             ),
           ).animate().shimmer(
@@ -161,12 +142,20 @@ class _DashboardPieChartCardState extends State<DashboardPieChartCard> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                total.toString(),
+                           Text(
+                "Expected Income",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
+                  color: Pallete.lightPrimaryTextColor,
+                ),
+              ),
+              Text(
+                "\$${widget.expectedTotal}",
+                style: TextStyle(
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Pallete.primaryColor,
+                  color: Pallete.blackColor.withOpacity(0.7),
                 ),
               ),
             ],
@@ -184,7 +173,7 @@ class _DashboardPieChartCardState extends State<DashboardPieChartCard> {
       final index = entry.key;
       final item = entry.value;
       final isTouched = touchedIndex == index;
-      final radius = isTouched ? 70.0 : 50.0;
+      final radius = isTouched ? 50.0 : 30.0;
 
       return PieChartSectionData(
         color: item.color,
@@ -210,8 +199,8 @@ class _DashboardPieChartCardState extends State<DashboardPieChartCard> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 16,
-              height: 16,
+              width: 13,
+              height: 13,
               decoration: BoxDecoration(
                 color: item.color,
                 shape: BoxShape.circle,

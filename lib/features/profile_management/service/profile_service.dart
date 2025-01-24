@@ -3,19 +3,19 @@ import 'package:care453/core/utils/api_response/ap_response.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileService {
-  static Future<APIResponse<String>> createClientProfile({
-    required String firstName,
-    required String lastName,
-    required String medicalAidInfo,
-    required String dateOfBirth,
-    required String password,
-    required String profilePicture,
-    required String gender,
-    required String contactNumber,
-    required String address,
-    required List<String> allergies,
-    required String email,
-  }) async {
+  static Future<APIResponse<String>> createClientProfile(
+      {required String firstName,
+      required String lastName,
+      required String medicalAidInfo,
+      required String dateOfBirth,
+      required String password,
+      required String profilePicture,
+      required String gender,
+      required String contactNumber,
+      required String address,
+      required String allergies,
+      required String email,
+      required String medicalhistory}) async {
     const String url =
         'https://care-give-backend.onrender.com/api/v1/clients/signup';
     final headers = {'Content-Type': 'application/json'};
@@ -30,14 +30,14 @@ class ProfileService {
       "gender": gender,
       "contactNumber": contactNumber,
       "address": address,
-      "allergies": ["Peanuts", "Dust"],
+      "allergies": ["$allergies"],
       "email": email,
       "familyMemberIds": [],
       "medicalHistory": [
         {
-          "condition": "Hypertension",
+          "condition": "$medicalhistory",
           "startDate": "2021-01-01",
-          "status": "Chronic"
+          "status": "Unknown"
         }
       ],
     });

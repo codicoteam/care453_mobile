@@ -541,7 +541,6 @@ class _CreateProfileClientState extends State<CreateProfileClient> {
                           ),
                           onTap: () {
                             profileHelper.validateAndSubmitForm(
-                              country: countryValue ?? "",
                               firstName: firstNameController.text,
                               gender: genderValue ?? "",
                               lastName: surnameController.text,
@@ -552,6 +551,9 @@ class _CreateProfileClientState extends State<CreateProfileClient> {
                               profilePicture: uploadedImageUrl ?? "",
                               confirmPasswordController: 'Clinpride#2001',
                               passwordController: 'Clinpride#2001',
+                              email: 'zpmakaza',
+                              medicalhistory: 'zphehehehe',
+                              allergies: 'jejejejejej',
                             );
 
                             print("Next button tapped");

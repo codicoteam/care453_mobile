@@ -1,0 +1,23 @@
+{
+    "minimumAmount": 1000,
+    "maximumAmount": 50000,
+    "minimumRate": 5,
+    "maximumRate": 15,
+    "defaultRate": 10,
+    "loanType": "USD Pay day loan",
+    "defaultInterval": "Monthly",
+    "interestCalculationMethod": "Reducing balance",
+    "maxDuration": 60,
+    "maxAmount": 40000,
+    "interest": 12,
+    "summary": {
+      "loanAmount": 25000,
+      "loanApplicationFee": 100,
+      "loanInsuranceFee": 200,
+      "fundsTransferFees": 50,
+      "arrangementFees": 150
+    },
+    "loanTenure": 24,
+    "disbursementOption": "BANK",
+    "typeOfLoan": "USD Pay day loan"
+  }

@@ -33,7 +33,7 @@ class LocalImageConstants {
   static const String education = 'assets/images/graduation-cap.png';
   static const String patient = 'assets/images/viewpatient.png';
   static const String cancel = 'assets/images/cancel.png';
-
+  static const String chatMessage = 'assets/images/chat.png';
   static const String gallery = 'assets/images/gallery.png';
   static const String notFoundIcon = 'assets/images/not-found.svg';
   static const String care_giver_two = 'assets/images/caregiver-two.jpg';
@@ -43,13 +43,15 @@ class LocalImageConstants {
   static const String runners = 'assets/images/tablet.png';
   static const String uprightArrow = 'assets/images/up-right-arrow.png';
   static const String schedule = 'assets/images/schedule.png';
+  static const String groupChat = 'assets/images/group.png';
   //Vitals Icons
   static const String temperature = 'assets/images/vital.png';
   static const String heartRate = 'assets/images/vitali.png';
   static const String oxygenSaturation = 'assets/images/oxygen-saturation.png';
   static const String bloodPressure = 'assets/images/blood-pressurew.png';
   static const String respiratory = 'assets/images/lungss.png';
-  // Animations 
+  static const String mylogo = 'assets/images/mylogo.png';
+  // Animations
   static const String email_verify = 'assets/images/emai_verify.png';
   static const String success = 'assets/images/success.png';
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/utils/colors/pallete.dart';
-
 class CustomTextField extends StatelessWidget {
   Color? fillColor;
   bool? filled;
@@ -18,9 +17,7 @@ class CustomTextField extends StatelessWidget {
   int? maxLength;
   Widget? suffixIconButton;
   bool? enabled;
-
   CustomTextField({super.key, this.maxLength, this.controller, this.fillColor, this.filled, this.defaultBoarderColor, this.focusedBoarderColor, required this.labelText, this.labelStyle, this.inputTextStyle, this.keyBoardType, required this.prefixIcon, this.obscureText, this.suffixIconButton, this.enabled, this.onChanged});
-
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -49,7 +46,6 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: focusedBoarderColor ?? Pallete.primaryColor),
         ),
-
         labelText: labelText ?? '',
         labelStyle: labelStyle ?? GoogleFonts.poppins(
           color: Colors.grey,

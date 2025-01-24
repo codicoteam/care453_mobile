@@ -8,20 +8,38 @@ import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../widgets/custom_description.dart';
 import '../Helpers/register_helper.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class MedicalDetailScreen extends StatefulWidget {
+  final String address;
+  final String phone_number;
+  final String email;
+  final String profile_picture;
+  final String first_name;
+  final String last_name;
+  final String date_of_birth;
+  final String gender;
+
+  const MedicalDetailScreen(
+      {super.key,
+      required this.address,
+      required this.phone_number,
+      required this.email,
+      required this.profile_picture,
+      required this.first_name,
+      required this.last_name,
+      required this.date_of_birth,
+      required this.gender});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<MedicalDetailScreen> createState() => _MedicalDetailScreenState();
 }
 
-class _SignUpState extends State<SignUp> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController date_of_birth_controller = TextEditingController();
+class _MedicalDetailScreenState extends State<MedicalDetailScreen> {
+  TextEditingController allergis_controller = TextEditingController();
+  TextEditingController medical_history_Controller = TextEditingController();
+  TextEditingController medicalAidInf = TextEditingController();
   String genderValue = "Male"; // Default selected gender
   final RegisterHelper registerHelper = RegisterHelper();
 
@@ -71,7 +89,7 @@ class _SignUpState extends State<SignUp> {
                   FadeInSlide(
                     duration: 1.2,
                     child: Text(
-                      'Register',
+                      'Medical Register',
                       style: GoogleFonts.poppins(
                           color: Pallete.lightPrimaryTextColor,
                           fontSize: 16,
@@ -86,13 +104,16 @@ class _SignUpState extends State<SignUp> {
                   ),
                   FadeInSlide(
                     duration: 1.6,
-                    child: CustomTextField(
-                      controller: firstNameController,
-                      labelText: 'First name',
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                      ),
+                    child: CustomDescriptionField(
+                      labelText: 'Medical History',
+                      controller: medical_history_Controller,
+                      fillColor: Colors.grey[200],
+                      filled: true,
+                      focusedBorderColor: Colors.blue,
+                      defaultBorderColor: Colors.grey,
+                      onChanged: (value) {
+                        print('Description: $value');
+                      },
                     ),
                   ),
                   SizedBox(
@@ -100,12 +121,18 @@ class _SignUpState extends State<SignUp> {
                   ),
                   FadeInSlide(
                     duration: 1.6,
-                    child: CustomTextField(
-                      controller: lastNameController,
-                      labelText: 'Last name',
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        color: Colors.grey,
+                    child: FadeInSlide(
+                      duration: 1.6,
+                      child: CustomDescriptionField(
+                        labelText: 'Medical Aid Inforomation',
+                        controller: medicalAidInf,
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        focusedBorderColor: Colors.blue,
+                        defaultBorderColor: Colors.grey,
+                        onChanged: (value) {
+                          print('Description: $value');
+                        },
                       ),
                     ),
                   ),
@@ -114,59 +141,23 @@ class _SignUpState extends State<SignUp> {
                   ),
                   FadeInSlide(
                     duration: 1.4,
-                    child: CustomDateOfBirth(
-                      labelText: 'Date of Birth',
-                      controller: date_of_birth_controller,
-                      prefixIcon: Icon(
-                        Icons.calendar_today,
-                        color: Colors.grey,
+                    child: FadeInSlide(
+                      duration: 1.6,
+                      child: CustomDescriptionField(
+                        labelText: 'Allegies e.g Peanuts, Dust',
+                        controller: allergis_controller,
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                        focusedBorderColor: Colors.blue,
+                        defaultBorderColor: Colors.grey,
+                        onChanged: (value) {
+                          print('Description: $value');
+                        },
                       ),
-                      focusedBorderColor: Colors.blue,
-                      onChanged: (value) {
-                        print('Selected Date: $value');
-                      },
                     ),
                   ),
                   const SizedBox(
                     height: 8,
-                  ),
-                  FadeInSlide(
-                      duration: 1.6,
-                      child: GenderPickerWithImage(
-                        showOtherGender: false,
-                        verticalAlignedText: true,
-                        selectedGender:
-                            genderValue == "Male" ? Gender.Male : Gender.Female,
-                        selectedGenderTextStyle: TextStyle(
-                          color: Colors
-                              .blue, // Replace with Pallete.originBlue if available
-                          fontWeight: FontWeight.bold,
-                        ),
-                        unSelectedGenderTextStyle: TextStyle(
-                          color: Colors
-                              .grey, // Use a distinguishable unselected color
-                          fontWeight: FontWeight.normal,
-                        ),
-                        onChanged: (gender) {
-                          setState(() {
-                            genderValue =
-                                gender!.name; // Updates the selected gender
-                            print(
-                                'Gender selected: $genderValue'); // Debugging output
-                          });
-                        },
-                        equallyAligned: true,
-                        animationDuration: Duration(milliseconds: 300),
-                        isCircular: true,
-                        opacityOfGradient: 0.4,
-                        padding: const EdgeInsets.all(3),
-                        size: 50,
-                      )),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  const SizedBox(
-                    height: 24,
                   ),
                   FadeInSlide(
                     duration: 2.0,
@@ -181,11 +172,11 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         onTap: () {
-                          registerHelper.validateRegisterOne(
-                              first_name: firstNameController.text,
-                              last_name: lastNameController.text,
-                              date_of_birth: date_of_birth_controller.text,
-                              gender: genderValue!);
+                          registerHelper.validateRegisterThree(
+                            allergies: allergis_controller.text,
+                            medicalAidInfo: medicalAidInf.text,
+                            medicalHistory: medical_history_Controller.text, address: widget.address, phone_number: widget.phone_number, email: widget.email, profile_picture: widget.profile_picture, first_name: widget.first_name, last_name: widget.last_name, date_of_birth: widget.date_of_birth, gender: widget.gender,
+                          );
                         }),
                   ),
                 ],

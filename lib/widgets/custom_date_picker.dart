@@ -81,7 +81,7 @@ class _CustomDateOfBirthState extends State<CustomDateOfBirth> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
-              color: widget.focusedBorderColor ?? Pallete.primaryColor),
+              color: widget.focusedBorderColor ?? Pallete.originBlue),
         ),
         labelText: widget.labelText ?? '',
         labelStyle: widget.labelStyle ??
@@ -92,7 +92,7 @@ class _CustomDateOfBirthState extends State<CustomDateOfBirth> {
       ),
       style: widget.inputTextStyle ??
           TextStyle(
-            color: Pallete.primaryColor,
+            color: Pallete.originBlue,
             fontSize: 12,
           ),
     );
@@ -102,8 +102,22 @@ class _CustomDateOfBirthState extends State<CustomDateOfBirth> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1900), // You can adjust the earliest selectable date
-      lastDate: DateTime.now(), // Ensure the last date is the current date
+      firstDate: DateTime(1900), // Earliest selectable date
+      lastDate: DateTime.now(), // Latest selectable date
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Pallete.originBlue, // Header background color
+              onPrimary: Colors.white, // Header text color
+              onSurface: Colors.black, // Body text color
+            ),
+            dialogBackgroundColor:
+                Colors.white, // Background color of the dialog
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (pickedDate != null) {

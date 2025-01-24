@@ -9,6 +9,7 @@ class ProfileController extends GetxController {
   var errorMessage = ''.obs;
   Future<bool> createClientProfile({
     required String firstName,
+    required String medicalhistory,
     required String lastName,
     required String medicalAidInfo,
     required String dateOfBirth,
@@ -17,8 +18,9 @@ class ProfileController extends GetxController {
     required String gender,
     required String contactNumber,
     required String address,
-    required List<String> allergies,
+    required String allergies,
     required String email,
+
   }) async {
     try {
       isLoading(true); // Start loading
@@ -28,6 +30,7 @@ class ProfileController extends GetxController {
         medicalAidInfo: medicalAidInfo,
         dateOfBirth: dateOfBirth,
         password: password,
+       medicalhistory:medicalhistory, 
         profilePicture: profilePicture,
         gender: gender,
         contactNumber: contactNumber,

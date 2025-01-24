@@ -8,12 +8,35 @@ import '../../../core/utils/asset_utils/image_util.dart';
 import '../../../core/utils/colors/pallete.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_text_field.dart';
+import '../../profile_management/helpers/profile_helper.dart';
 
 class CreatePasswordScreen extends StatefulWidget {
   final String email;
-  final String username;
+  final String first_name;
+  final String last_name;
+  final String date_of_birth;
+  final String gender;
+  final String address;
+  final String phone_number;
+  final String profile_picture;
+  final String allergies;
+  final String medicalHistory;
+  final String medicalAidInfo;
 
-  const CreatePasswordScreen({super.key, required this.email, required this.username});
+  const CreatePasswordScreen({
+    super.key,
+    required this.email,
+    required this.first_name,
+    required this.last_name,
+    required this.date_of_birth,
+    required this.gender,
+    required this.address,
+    required this.phone_number,
+    required this.profile_picture,
+    required this.allergies,
+    required this.medicalHistory,
+    required this.medicalAidInfo,
+  });
 
   @override
   State<CreatePasswordScreen> createState() => _CreatePasswordScreenState();
@@ -21,9 +44,12 @@ class CreatePasswordScreen extends StatefulWidget {
 
 class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   final AuthController authController = Get.put(AuthController());
+  final ProfileHelper profileHelper = ProfileHelper();
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.sizeOf(context).width;
@@ -92,15 +118,30 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                   ),
                   const SizedBox(height: 20),
                   CustomButton(
-                    btnColor: Pallete.originBlue,
-                    width: screenWidth,
-                    borderRadius: 10,
-                    child: Text(
-                      'SignUp',
-                      style: GoogleFonts.poppins(color: Colors.white),
-                    ),
-                    onTap: () => validateAndSubmitForm(),
-                  ),
+                      btnColor: Pallete.originBlue,
+                      width: screenWidth,
+                      borderRadius: 10,
+                      child: Text(
+                        'SignUp',
+                        style: GoogleFonts.poppins(color: Colors.white),
+                      ),
+                      onTap: () {
+                        profileHelper.validateAndSubmitForm(
+                          firstName: widget.first_name,
+                          gender: widget.gender,
+                          lastName: widget.last_name,
+                          medicalInfo: widget.medicalAidInfo,
+                          dateOfBirth: widget.date_of_birth,
+                          address: widget.address,
+                          clientPhoneNumber: widget.phone_number,
+                          profilePicture: widget.profile_picture,
+                          confirmPasswordController: passwordController.text,
+                          passwordController: passwordController.text,
+                          email: widget.email,
+                          medicalhistory: widget.medicalHistory,
+                          allergies: widget.allergies,
+                        );
+                      }),
                 ],
               ),
             ),
@@ -108,55 +149,5 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
         ),
       ),
     );
-  }
-
-  void validateAndSubmitForm() async {
-    if (passwordController.text.isEmpty) {
-      Get.snackbar('Error', 'Password is required.',
-          snackPosition: SnackPosition.BOTTOM);
-      return;
-    }
-
-    if (confirmPasswordController.text.isEmpty) {
-      Get.snackbar('Error', 'Please confirm your password.',
-          snackPosition: SnackPosition.BOTTOM);
-      return;
-    }
-
-    if (passwordController.text.length < 8) {
-      Get.snackbar('Error', 'Password is too short.',
-          snackPosition: SnackPosition.BOTTOM);
-      return;
-    }
-
-    if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
-      Get.snackbar('Error', 'Passwords don\'t match.',
-          snackPosition: SnackPosition.BOTTOM);
-      return;
-    }
-
-    if (!GeneralHelpers.isStrongPassword(confirmPasswordController.text.trim())) {
-      Get.snackbar('Error', 'Your password is too weak.',
-          snackPosition: SnackPosition.BOTTOM);
-      return;
-    }
-
-    authController.isLoading(true);
-    final bool isSuccess = await authController.authSignUpRequest(
-      emailAddress: widget.email,
-      password: confirmPasswordController.text.trim(),
-      userName: widget.username,
-    );
-
-    authController.isLoading(false);
-    if (isSuccess) {
-      Get.snackbar('Success', authController.successMessage.value,
-          snackPosition: SnackPosition.BOTTOM);
-      // Navigate to the desired screen on success
-      // GeneralHelpers.permanentNavigator(context, const AuthHandler());
-    } else {
-      Get.snackbar('Error', authController.errorMessage.value,
-          snackPosition: SnackPosition.BOTTOM);
-    }
   }
 }

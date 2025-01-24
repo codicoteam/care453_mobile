@@ -24,13 +24,15 @@ class ProfileHelper {
   FireUser.User? user = FirebaseAuth.instance.currentUser;
 
   void validateAndSubmitForm({
+    required String email,
+    required String medicalhistory,
     required String firstName,
     required String gender,
     required String lastName,
     required String medicalInfo,
     required String dateOfBirth,
     required String address,
-    required String country,
+    required String allergies,
     required String clientPhoneNumber,
     required String profilePicture,
     required String confirmPasswordController,
@@ -71,13 +73,7 @@ class ProfileHelper {
           colorText: Colors.white);
       return;
     }
-    if (country.isEmpty) {
-      Get.snackbar('Error', 'Country is required.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Pallete.originBlue,
-          colorText: Colors.white);
-      return;
-    }
+
     if (clientPhoneNumber.isEmpty) {
       Get.snackbar('Error', 'Phone number is required.',
           snackPosition: SnackPosition.BOTTOM,
@@ -114,9 +110,10 @@ class ProfileHelper {
         profilePicture: profilePicture,
         gender: gender,
         contactNumber: clientPhoneNumber,
-        address: "$address $country",
-        allergies: ["None"],
-        email: "zpmakaza1@gmail.com"
+        medicalhistory:medicalhistory,
+        address: "$address",
+        allergies: allergies,
+        email: email,
         // email: "${user!.email}",
         );
 

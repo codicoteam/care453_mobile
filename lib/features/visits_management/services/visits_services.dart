@@ -13,10 +13,7 @@ class VisitsServices {
   static Future<APIResponse<List<VisitModel>>> fetchVisitsForClient() async {
     const String url =
         '${ApiKeys.baseUrl}/visit_route/client/676297d66ec829a1a595dca6';
-    const headers = {
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}'
-    };
+    const headers = {'Authorization': 'Bearer ${ApiKeys.bearerTokent}'};
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       DevLogs.logError('Error fetching observat: ${response.body}');
@@ -56,14 +53,11 @@ class VisitsServices {
     }
   }
 
-
-    static Future<APIResponse<List<VisitModel>>> fetchVisitsForEmployeeid() async {
+  static Future<APIResponse<List<VisitModel>>>
+      fetchVisitsForEmployeeid() async {
     const String url =
         '${ApiKeys.baseUrl}/visit_route/emplyeeid/67689853376e63cab46a0f44';
-    const headers = {
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}'
-    };
+    const headers = {'Authorization': 'Bearer ${ApiKeys.bearerTokent}'};
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       DevLogs.logError('Error fetching observat: ${response.body}');
@@ -105,10 +99,7 @@ class VisitsServices {
   static Future<APIResponse<List<GetTaskModel>>> fetchTaskPerVisitForClient(
       String visitId) async {
     final String url = '${ApiKeys.baseUrl}/task_route/visit/$visitId';
-    const headers = {
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}'
-    };
+    const headers = {'Authorization': 'Bearer ${ApiKeys.bearerTokent}'};
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode == 200) {
@@ -149,10 +140,7 @@ class VisitsServices {
   static Future<APIResponse<List<GetMedicationModel>>>
       fetchMedicationPerVisitForClient(String visitId) async {
     final String url = '${ApiKeys.baseUrl}/medication_route/visit/$visitId';
-    const headers = {
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}'
-    };
+    const headers = {'Authorization': 'Bearer ${ApiKeys.bearerTokent}'};
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode == 200) {
@@ -193,15 +181,12 @@ class VisitsServices {
   static Future<APIResponse<List<GetObservationModel>>>
       fetchObservationPerVisitForClient(String visitId) async {
     final String url = '${ApiKeys.baseUrl}/observation_route/visit/$visitId';
-    const headers = {
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}'
-    };
+    const headers = {'Authorization': 'Bearer ${ApiKeys.bearerTokent}'};
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = json.decode(response.body);
-              DevLogs.logSuccess('Error fetching observat: ${response.body}');
+        DevLogs.logSuccess('Error fetching observat: ${response.body}');
 
         if (jsonResponse.containsKey('data') && jsonResponse['data'] is List) {
           List<dynamic> data = jsonResponse['data'];
@@ -236,8 +221,6 @@ class VisitsServices {
     }
   }
 
-
-
   static Future<APIResponse<String>> updateVisitById({
     required String visitId,
     required String clientId,
@@ -253,8 +236,7 @@ class VisitsServices {
   }) async {
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
     };
     final body = json.encode({
       "clientId": clientId,
@@ -297,6 +279,51 @@ class VisitsServices {
     }
   }
 
+  static Future<APIResponse<List<VisitModel>>>
+      fetchVisitsForEmployeeForTheMonth({
+    required String employeeId,
+    required String startDate,
+    required String endDate,
+  }) async {
+    final String url =
+        '${ApiKeys.baseUrl}/visit_route/filterByEmployeeAndDateRange?employeeId=$employeeId&startDate=$startDate&endDate=$endDate';
+    const headers = {'Authorization': 'Bearer ${ApiKeys.bearerTokent}'};
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      DevLogs.logError('Error fetching observat: ${response.body}');
 
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
 
+        if (jsonResponse.containsKey('data') && jsonResponse['data'] is List) {
+          List<dynamic> data = jsonResponse['data'];
+          // Convert the data into a list of VisitModel objects
+          List<VisitModel> visits = data
+              .map((visit) => VisitModel.fromMap(visit as Map<String, dynamic>))
+              .toList();
+          return APIResponse<List<VisitModel>>(
+            data: visits,
+            success: true,
+            message: 'Visits retrieved successfully',
+          );
+        } else {
+          return APIResponse<List<VisitModel>>(
+            success: false,
+            message:
+                'Unexpected response structure: data not found or not a list',
+          );
+        }
+      } else {
+        return APIResponse<List<VisitModel>>(
+          success: false,
+          message: 'Failed to load visits. HTTP Status: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      return APIResponse<List<VisitModel>>(
+        success: false,
+        message: 'Error: $e',
+      );
+    }
+  }
 }

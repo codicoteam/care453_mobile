@@ -39,8 +39,6 @@ class VisitController extends GetxController {
     await getAllVisitsForClient();
   }
 
-
-
   Future<void> getAllVisitsForEmployee() async {
     try {
       isLoading(true); // Start loading
@@ -65,10 +63,38 @@ class VisitController extends GetxController {
     await getAllVisitsForEmployee();
   }
 
+  Future<void> getAllVisitsForEmployeeAndDateFilter({
+    required String employeeId,
+    required String startDate,
+    required String endDate,
+  }) async {
+    try {
+      isLoading(true); // Start loading
+      final response = await VisitsServices.fetchVisitsForEmployeeForTheMonth(
+          employeeId: employeeId, startDate: startDate, endDate: endDate);
+      if (response.success) {
+        visits.value = response.data ?? [];
+        successMessage.value =
+            response.message ?? 'Shuttle loaded successfully';
+      } else {
+        errorMessage.value = response.message!;
+      }
+    } catch (e) {
+      DevLogs.logError('Error fetching visits: ${e.toString()}');
+      errorMessage.value =
+          'An error occurred while fetching visits: ${e.toString()}';
+    } finally {
+      isLoading(false); // End loading
+    }
+  }
 
-
-
-
+  Future<void> refreshEmployeeVisitsAndDateFilter({
+    required String employeeId,
+    required String startDate,
+    required String endDate,
+  }) async {
+    await getAllVisitsForEmployeeAndDateFilter(employeeId: employeeId, startDate: startDate, endDate: endDate);
+  }
 
   // Observable list for fetched trips
   var tasks = <GetTaskModel>[].obs;
@@ -99,7 +125,6 @@ class VisitController extends GetxController {
     await getAllTaskPerVisitForClient(visitId);
   }
 
-
   // Observable list for fetched trips
   var medications = <GetMedicationModel>[].obs;
   var medication = Rxn<GetMedicationModel>();
@@ -108,7 +133,8 @@ class VisitController extends GetxController {
   Future<void> getAllMedicationPerVisitForClient(String visitid) async {
     try {
       isLoading(true); // Start loading
-      final response = await VisitsServices.fetchMedicationPerVisitForClient(visitid);
+      final response =
+          await VisitsServices.fetchMedicationPerVisitForClient(visitid);
       if (response.success) {
         medications.value = response.data ?? [];
         successMessage.value =
@@ -129,13 +155,6 @@ class VisitController extends GetxController {
     await getAllMedicationPerVisitForClient(visitId);
   }
 
-
-
-
-
-
-
-
   // Observable list for fetched trips
   var observations = <GetObservationModel>[].obs;
   var observation = Rxn<GetObservationModel>();
@@ -144,7 +163,8 @@ class VisitController extends GetxController {
   Future<void> getAllObservationPerVisitForClient(String visitid) async {
     try {
       isLoading(true); // Start loading
-      final response = await VisitsServices.fetchObservationPerVisitForClient(visitid);
+      final response =
+          await VisitsServices.fetchObservationPerVisitForClient(visitid);
       if (response.success) {
         observations.value = response.data ?? [];
         successMessage.value =
@@ -162,12 +182,8 @@ class VisitController extends GetxController {
   }
 
   Future<void> refreshObservation(String visitId) async {
-    await getAllObservationPerVisitForClient (visitId);
+    await getAllObservationPerVisitForClient(visitId);
   }
-
-
-
-
 
   Future<bool> updateVisitById({
     required String visitId,
@@ -215,10 +231,4 @@ class VisitController extends GetxController {
       isLoading(false); // End loading
     }
   }
-
-
-
-
-
-
 }

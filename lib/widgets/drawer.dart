@@ -3,6 +3,7 @@ import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/casched_data.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/features/auth/Services/auth_services.dart';
+import 'package:care453/features/message_management/screens/chat_screen.dart';
 import 'package:care453/features/profile_management/screens/cleint_profile_screen.dart';
 import 'package:care453/features/visits_management/screens/client_all_visits.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -154,9 +155,32 @@ class DrawerComponent2 extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                  Get.to(DashboardPatientVitals());
+                Get.to(DashboardPatientVitals());
               },
             ),
+
+            ListTile(
+              leading: Container(
+                height: 35,
+                width: 35,
+                child: Image.asset(
+                  LocalImageConstants.chatMessage,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              title: Text(
+                'Chat',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  // color: appColors.white,
+                ),
+              ),
+              onTap: () {
+                Get.to(ChatScreen());
+              },
+            ),
+
             ListTile(
               leading: Container(
                 height: 35,
@@ -202,25 +226,6 @@ class DrawerComponent2 extends StatelessWidget {
               },
             ),
 
-            ListTile(
-              leading: Container(
-                height: 35,
-                width: 35,
-                child: Image.asset(
-                  LocalImageConstants.card,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: Text(
-                'My Payments',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  // color: appColors.white,
-                ),
-              ),
-              onTap: () {},
-            ),
             ListTile(
                 leading: Container(
                   height: 35,

@@ -1,11 +1,13 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/widgets/cards/patient_vitals_card_dashboard.dart';
+import 'package:care453/widgets/dashboards_widget/dashboard_line_chart.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:care453/widgets/error_widgets/error_widget.dart';
 import 'package:care453/widgets/loaders/loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:care453/widgets/dashboards_widget/line_chart.dart';
@@ -102,21 +104,10 @@ class _DashboardPatientVitalsState extends State<DashboardPatientVitals>
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 500,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              SizedBox(
-                                height: 500,
-                                child: LineChartSample1(
-                                  patientVitalModels:
-                                      patientVitalsController.patientVitals,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: LineChartSample1(
+                          patientVitalModels:
+                              patientVitalsController.patientVitals,
+                        ).animate().fadeIn(duration: 600.ms).slideX(begin: 0.1),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

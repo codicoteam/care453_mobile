@@ -5,10 +5,12 @@ class VisitModel {
     final String? id;
     final ClientId? clientId;
     final CareProfessionalId? careProfessionalId;
+    final String? amountPaidPerHour;
     final DateTime? dateOfVisit;
     final String? startTime;
     final String? endTime;
     final String? status;
+    final String? description;
     final String? officialVisitTime;
     final String? officialEndTime;
     final String? createdAt;
@@ -20,10 +22,12 @@ class VisitModel {
         this.id,
         this.clientId,
         this.careProfessionalId,
+        this.amountPaidPerHour,
         this.dateOfVisit,
         this.startTime,
         this.endTime,
         this.status,
+        this.description,
         this.officialVisitTime,
         this.officialEndTime,
         this.createdAt,
@@ -40,10 +44,12 @@ class VisitModel {
         id: json["_id"],
         clientId: json["clientId"] == null ? null : ClientId.fromMap(json["clientId"]),
         careProfessionalId: json["careProfessionalId"] == null ? null : CareProfessionalId.fromMap(json["careProfessionalId"]),
+        amountPaidPerHour: json["amount_paid_per_hour"],
         dateOfVisit: json["DateOfVisit"] == null ? null : DateTime.parse(json["DateOfVisit"]),
         startTime: json["startTime"],
         endTime: json["endTime"],
         status: json["status"],
+        description: json["description"],
         officialVisitTime: json["officialVisitTime"],
         officialEndTime: json["officialEndTime"],
         createdAt: json["createdAt"],
@@ -56,10 +62,12 @@ class VisitModel {
         "_id": id,
         "clientId": clientId?.toMap(),
         "careProfessionalId": careProfessionalId?.toMap(),
+        "amount_paid_per_hour": amountPaidPerHour,
         "DateOfVisit": "${dateOfVisit!.year.toString().padLeft(4, '0')}-${dateOfVisit!.month.toString().padLeft(2, '0')}-${dateOfVisit!.day.toString().padLeft(2, '0')}",
         "startTime": startTime,
         "endTime": endTime,
         "status": status,
+        "description": description,
         "officialVisitTime": officialVisitTime,
         "officialEndTime": officialEndTime,
         "createdAt": createdAt,
