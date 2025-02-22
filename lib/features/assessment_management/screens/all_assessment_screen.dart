@@ -6,7 +6,9 @@ import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../core/utils/colors/pallete.dart';
+import '../../../providers/user_provider_class.dart';
 import '../../../widgets/error_widgets/error_widget.dart';
 import '../../../widgets/loaders/loader_widget.dart';
 import 'answer_assessment_dialog.dart';
@@ -34,8 +36,10 @@ class _AllAssessmentScreenState extends State<AllAssessmentScreen>
     _tabController = TabController(length: _requestStatus.length, vsync: this);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+            final user = Provider.of<UserProvider>(context, listen: false)
+          .user; // Use listen: false
       assessmemtController
-          .getAllAllAssessmentForEmployee("6763fbc6d9c0556eaea94214");
+          .getAllAllAssessmentForEmployee("${user?.id}");
     });
   }
 
@@ -127,9 +131,11 @@ class _AllAssessmentScreenState extends State<AllAssessmentScreen>
           }
           if (assessmemtController.errorMessage.isNotEmpty) {
             return ApiFailureWidget(onRetry: () {
+                          final user = Provider.of<UserProvider>(context, listen: false)
+          .user; // Use listen: false
               assessmemtController.errorMessage.value = "";
               assessmemtController
-                  .getAllAllAssessmentForEmployee("6763fbc6d9c0556eaea94214");
+                  .getAllAllAssessmentForEmployee("${user?.id}");
             });
           }
           final filteredAssessments =
@@ -141,7 +147,8 @@ class _AllAssessmentScreenState extends State<AllAssessmentScreen>
             }
             return true; // For "All", include all assessments
           }).toList();
-
+                         final user = Provider.of<UserProvider>(context, listen: false)
+          .user; 
           return filteredAssessments.isEmpty
               ? const EmptyStateWidget(
                   icon: LocalImageConstants.notFoundIcon,
@@ -152,7 +159,7 @@ class _AllAssessmentScreenState extends State<AllAssessmentScreen>
               : RefreshIndicator(
                   color: Pallete.originBlue,
                   onRefresh: () => assessmemtController
-                      .refreshSsessments("6763fbc6d9c0556eaea94214"),
+                      .refreshSsessments("${user?.id}"),
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: filteredAssessments.length,

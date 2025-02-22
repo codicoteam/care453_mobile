@@ -1,5 +1,6 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/features/visits_management/controller/visit_controller.dart';
+import 'package:care453/providers/user_provider_class.dart';
 import 'package:care453/widgets/dashboards_widget/dashboard_line_chart.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../core/utils/colors/pallete.dart';
 import '../../../widgets/cards/payments_widget.dart';
 import '../../../widgets/cards/visit_card_for_employee.dart';
@@ -61,10 +63,10 @@ class _EmployeePaymentMainScreenState extends State<EmployeePaymentMainScreen>
         DateFormat('yyyy-MM-dd').format(DateTime(now.year, now.month, 1));
     endDate =
         DateFormat('yyyy-MM-dd').format(DateTime(now.year, now.month + 1, 0));
-
+    final user = Provider.of<UserProvider>(context, listen: false).user;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       visitController.getAllVisitsForEmployeeAndDateFilter(
-        employeeId: '67689853376e63cab46a0f44',
+        employeeId: '${user?.id}',
         startDate: startDate,
         endDate: endDate,
       );

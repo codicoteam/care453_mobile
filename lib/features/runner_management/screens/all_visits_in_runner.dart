@@ -1,15 +1,12 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/features/visits_management/controller/visit_controller.dart';
-import 'package:care453/features/visits_management/screens/detail_visit_for_employee.dart';
 import 'package:care453/models/runner_model.dart';
-import 'package:care453/widgets/cards/visit_card_for_employee.dart';
 import 'package:care453/widgets/cards/visit_card_in_runner.dart';
 import 'package:care453/widgets/custom_text_field.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../core/utils/colors/pallete.dart';
 import '../../../widgets/error_widgets/error_widget.dart';
 import '../../../widgets/loaders/loader_widget.dart';
@@ -137,7 +134,6 @@ class _AllVisitsInRunnerState extends State<AllVisitsInRunner>
           if (visitController.errorMessage.isNotEmpty) {
             return ApiFailureWidget(onRetry: () {
               visitController.errorMessage.value = "";
-              visitController.getAllVisitsForEmployee();
             });
           }
 

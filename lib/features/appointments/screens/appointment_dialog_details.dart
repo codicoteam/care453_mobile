@@ -190,6 +190,8 @@ class _AppointmentDialogDetailsState extends State<AppointmentDialogDetails> {
                 ],
               ),
 
+              const SizedBox(height: 15),
+
               SizedBox(
                 height: 50,
                 child: Padding(

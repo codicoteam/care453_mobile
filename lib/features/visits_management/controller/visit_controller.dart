@@ -15,10 +15,10 @@ class VisitController extends GetxController {
   var visits = <VisitModel>[].obs;
   var visit = Rxn<VisitModel>();
   // Method to fetch all trips
-  Future<void> getAllVisitsForClient() async {
+  Future<void> getAllVisitsForClient({required String clientId}) async {
     try {
       isLoading(true); // Start loading
-      final response = await VisitsServices.fetchVisitsForClient();
+      final response = await VisitsServices.fetchVisitsForClient(clientId: clientId);
       if (response.success) {
         visits.value = response.data ?? [];
         successMessage.value =
@@ -35,14 +35,14 @@ class VisitController extends GetxController {
     }
   }
 
-  Future<void> refreshTrips() async {
-    await getAllVisitsForClient();
+  Future<void> refreshTrips({required String clientId}) async {
+    await getAllVisitsForClient(clientId: clientId);
   }
 
-  Future<void> getAllVisitsForEmployee() async {
+  Future<void> getAllVisitsForEmployee({required String employeeid}) async {
     try {
       isLoading(true); // Start loading
-      final response = await VisitsServices.fetchVisitsForEmployeeid();
+      final response = await VisitsServices.fetchVisitsForEmployeeid(employeeId: employeeid);
       if (response.success) {
         visits.value = response.data ?? [];
         successMessage.value =
@@ -59,8 +59,8 @@ class VisitController extends GetxController {
     }
   }
 
-  Future<void> refreshEmployeeVisits() async {
-    await getAllVisitsForEmployee();
+  Future<void> refreshEmployeeVisits({required String employeeid}) async {
+    await getAllVisitsForEmployee(employeeid: employeeid);
   }
 
   Future<void> getAllVisitsForEmployeeAndDateFilter({

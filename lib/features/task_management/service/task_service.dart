@@ -4,6 +4,8 @@ import 'package:care453/core/constants/api_keys.dart';
 import 'package:care453/core/utils/api_response/ap_response.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../core/utils/casched_data.dart';
+
 class TaskService {
   static Future<APIResponse<String>> updateTaskPerVisit({
     required String taskId,
@@ -13,11 +15,12 @@ class TaskService {
     required String status,
     required String assignedBy,
   }) async {
+    final token = await CacheUtils.checkToken();
     final String url = '${ApiKeys.baseUrl}/task_route/update/$taskId';
     final headers = {
       'Content-Type': 'application/json',
       'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}',
+          'Bearer ${token}',
     };
     final body = json.encode({
       "name": name,

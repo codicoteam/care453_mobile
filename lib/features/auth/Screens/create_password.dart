@@ -1,5 +1,7 @@
 import 'package:care453/features/auth/Controller/auth_controller.dart';
+import 'package:care453/features/auth/Handler/auth_handler.dart';
 import 'package:care453/features/auth/Services/auth_services.dart';
+import 'package:care453/widgets/custom_password_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -103,14 +105,14 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  CustomTextField(
+                  CustomPasswordTextfield(
                     controller: passwordController,
                     obscureText: true,
                     labelText: 'Create a password',
                     prefixIcon: const Icon(Icons.lock, color: Colors.grey),
                   ),
                   const SizedBox(height: 16),
-                  CustomTextField(
+                  CustomPasswordTextfield(
                     controller: confirmPasswordController,
                     obscureText: true,
                     labelText: 'Confirm password',
@@ -141,6 +143,7 @@ class _CreatePasswordScreenState extends State<CreatePasswordScreen> {
                           medicalhistory: widget.medicalHistory,
                           allergies: widget.allergies,
                         );
+                        Get.off(AuthHandler());
                       }),
                 ],
               ),

@@ -5,15 +5,16 @@ import 'package:care453/core/constants/api_keys.dart';
 import 'package:care453/models/runner_model.dart';
 import '../../../core/utils/api_response/ap_response.dart';
 import 'package:http/http.dart' as http;
-
+import '../../../core/utils/casched_data.dart';
 import '../../../core/utils/logs.dart';
 class RunnerService {
     static Future<APIResponse<List<RunnerModel>>> fetchRunnerByEmployeeId(
       String employeeId) async {
+        final token = await CacheUtils.checkToken();
     final String url =
         '${ApiKeys.baseUrl}/runner_route/employee/$employeeId';
     final headers = {
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
@@ -55,5 +56,4 @@ class RunnerService {
       );
     }
   }
-
 }

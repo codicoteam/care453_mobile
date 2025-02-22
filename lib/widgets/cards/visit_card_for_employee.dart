@@ -2,10 +2,13 @@ import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:unicons/unicons.dart';
+
+import '../../features/message_management/screens/employee_chat_screen.dart';
 
 class VisitCardForEmployee extends StatelessWidget {
   final VisitModel visitModel;
@@ -40,16 +43,7 @@ class VisitCardForEmployee extends StatelessWidget {
 
     // Get menu options based on status
     List<String> getMenuOptions() {
-      switch (visitModel.status) {
-        case 'Scheduled':
-          return ['View', 'Reschedule'];
-        case 'Ongoing':
-          return ['View'];
-        case 'Completed':
-          return ['View', 'Report'];
-        default:
-          return [];
-      }
+      return ['Chat'];
     }
 
     return GestureDetector(
@@ -108,8 +102,8 @@ class VisitCardForEmployee extends StatelessWidget {
                                             radius: 25,
                                             child: ClipOval(
                                               child: Image.network(
-                                                visitModel.clientId!
-                                                    .profilePicture!,
+                                                visitModel
+                                                    .clientId!.profilePicture!,
                                                 fit: BoxFit.cover,
                                                 width:
                                                     50, // Match the diameter of the CircleAvatar (2 * radius)
@@ -186,6 +180,14 @@ class VisitCardForEmployee extends StatelessWidget {
                               ),
                               onSelected: (value) {
                                 print('Selected: $value');
+                                if (value == 'Chat') {
+
+                                  
+                                  Get.off(ChatScreenEmployee(
+                                      groupId: visitModel.clientId!.id!,
+                                      employeeName:
+                                          "${visitModel.careProfessionalId!.firstName!} ${visitModel.careProfessionalId!.lastName!}"));
+                                }
                               },
                               itemBuilder: (context) {
                                 return getMenuOptions()

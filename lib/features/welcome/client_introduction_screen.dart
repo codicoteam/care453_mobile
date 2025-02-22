@@ -1,15 +1,12 @@
 import 'package:care453/core/utils/casched_data.dart';
-import 'package:care453/core/utils/colors/pallete.dart';
-import 'package:care453/features/auth/Handler/auth_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-
+import '../auth/Screens/sign_in.dart';
 class ClientIntroductionScreen extends StatefulWidget {
   const ClientIntroductionScreen({super.key});
-
   @override
   ClientIntroductionScreenState createState() =>
       ClientIntroductionScreenState();
@@ -17,21 +14,17 @@ class ClientIntroductionScreen extends StatefulWidget {
 
 class ClientIntroductionScreenState extends State<ClientIntroductionScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
-
   void _onIntroEnd(context) {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const HomePage()),
     );
   }
-
   Widget _buildImage(String assetName, [double width = 350]) {
     return Image.asset('assets/images/$assetName', width: width);
   }
-
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
-
+    const bodyStyle = TextStyle(fontSize: 14.0);
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(
           fontSize: 25.0,
@@ -42,7 +35,6 @@ class ClientIntroductionScreenState extends State<ClientIntroductionScreen> {
       pageColor: Colors.white,
       imagePadding: EdgeInsets.only(top: 50),
     );
-
     return IntroductionScreen(
       key: introKey,
       globalBackgroundColor: Colors.white,
@@ -96,12 +88,12 @@ class ClientIntroductionScreenState extends State<ClientIntroductionScreen> {
       ],
       onDone: () async {
         await CacheUtils.updateOnboardingStatus(true).then((_) {
-          Get.to(AuthHandler());
+Get.off(Login());
         });
       },
       onSkip: () async {
         await CacheUtils.updateOnboardingStatus(true).then((_) {
-          Get.to(AuthHandler());
+Get.off(Login());
         });
       }, // You can override onSkip callback
       showSkipButton: true,

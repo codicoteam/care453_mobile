@@ -29,28 +29,28 @@ class AuthController extends GetxController {
         return false;
       }
     } catch (e) {
-      DevLogs.logError('Error submitting vehicle request: ${e.toString()}');
+      DevLogs.logError('Error logging in user: ${e.toString()}');
       errorMessage.value =
-          'An error occurred while submitting vehicle request: ${e.toString()}';
+          'An error on logging on user  ${e.toString()}';
       return false;
     } finally {
       isLoading(false); // End loading
     }
   }
 
-  Future<bool> authSignUpRequest({
+    Future<bool> authEmployeeLogin({
     required String emailAddress,
     required String password,
-    required String userName,
   }) async {
     try {
       isLoading(true);
-      final response = await AuthServices.signUpWithVerification(
+      final response = await AuthServices.loginEmployee(
         emailAddress: emailAddress,
         password: password,
-        userName: userName,      );
+      );
       if (response.success) {
         successMessage.value = response.message!;
+        // await fetchAllShuttlesForClient();
         return true;
       } else {
         errorMessage.value = response.message!;
@@ -58,9 +58,9 @@ class AuthController extends GetxController {
         return false;
       }
     } catch (e) {
-      DevLogs.logError('Error submitting sign-up request: ${e.toString()}');
+      DevLogs.logError('Error logging in user: ${e.toString()}');
       errorMessage.value =
-          'An error occurred while submitting sign-up request: ${e.toString()}';
+          'An error on logging on user  ${e.toString()}';
       return false;
     } finally {
       isLoading(false); // End loading

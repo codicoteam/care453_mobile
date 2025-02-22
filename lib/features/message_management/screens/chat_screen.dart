@@ -16,10 +16,13 @@ import '../helpers/message_helpers.dart';
 
 class ChatScreen extends StatelessWidget {
   final ChatController chatController = Get.put(ChatController());
-  final String groupId = '677bfba5e50fcf2261b8ae2e';
-  final String userId = '678af6baa5f90a0c21174b87';
+                           
+  final String groupId;
+  final String userId;
+  final String fullName;
 
-  ChatScreen() {
+
+  ChatScreen({required this.groupId, required this.userId, required this.fullName}) {
     chatController.connectSocket(userId, groupId);
     chatController.getUsersInGroup(groupId: groupId);
   }
@@ -440,14 +443,14 @@ class ChatScreen extends StatelessWidget {
                   onPressed: () => _chatHelpers.sendImage(
                     groupId: groupId,
                     userId: userId,
-                    firstName: "John Doe",
+                    firstName: fullName,
                   ),
                 ),
                 Expanded(
                   child: TextField(
                     controller: chatController.messageController,
                     onChanged: (text) =>
-                        chatController.notifyTyping(groupId, "John Doe"),
+                        chatController.notifyTyping(groupId, fullName),
                     decoration: InputDecoration(
                       hintText: 'Type a message',
                       border: OutlineInputBorder(
@@ -470,7 +473,7 @@ class ChatScreen extends StatelessWidget {
                     chatController.sendMessage(
                       groupId: groupId,
                       userId: userId,
-                      firstName: "John Doe",
+                      firstName: fullName,
                       timestamp: timestamp,
                     );
                   },
@@ -484,202 +487,3 @@ class ChatScreen extends StatelessWidget {
   }
 }
 
-
-
-
-
-// import 'package:care453/core/utils/colors/pallete.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:flutter_chat_bubble/chat_bubble.dart';
-// import '../helpers/message_helpers.dart';
-// class ChatScreen extends StatefulWidget {
-//   @override
-//   _ChatScreenState createState() => _ChatScreenState();
-// }
-
-// class _ChatScreenState extends State<ChatScreen> {
-//   final TextEditingController _messageController = TextEditingController();
-//   final List<Map<String, dynamic>> _messages = [];
-  // final ChatHelpers _chatHelpers = ChatHelpers();
-
-//   void _updateMessages(List<Map<String, dynamic>> messages) {
-//     setState(() {
-//       _messages.clear();
-//       _messages.addAll(messages);
-//       print("Updated Messages: $_messages"); // Debugging
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-        // leading: IconButton(
-        //   icon: Icon(
-        //     Icons.arrow_back_ios,
-        //     color: Pallete.whiteColor,
-        //     size: 28,
-        //   ),
-//           onPressed: () {
-//             Get.back();
-//           },
-//         ),
-//         title: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               'My Chat',
-//               style: TextStyle(
-//                 color: Pallete.whiteColor,
-//                 fontSize: 18,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//             Text(
-//               '2 members',
-//               style: TextStyle(
-//                 color: Pallete.whiteColor.withOpacity(0.7),
-//                 fontSize: 12,
-//               ),
-//             ),
-//           ],
-//         ),
-//         backgroundColor: Pallete.originBlue,
-//       ),
-//       body: Column(
-//         children: [
-//           Expanded(
-//             child: ListView.builder(
-//               reverse: true,
-//               itemCount: _messages.length,
-//               itemBuilder: (context, index) {
-//                 final message = _messages[_messages.length - 1 - index];
-//                 if (message['type'] == 'text') {
-//                   return _buildTextMessage(message['content']);
-//                 } else if (message['type'] == 'image') {
-//                   return _buildImageMessage(
-//                       message['content'], message['caption']);
-//                 }
-//                 return SizedBox.shrink();
-//               },
-//             ),
-//           ),
-//           _buildInputBar(),
-//         ],
-//       ),
-//     );
-//   }
-
-  // Widget _buildTextMessage(String text) {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-  //     child: ChatBubble(
-  //       clipper: ChatBubbleClipper9(type: BubbleType.sendBubble),
-  //       alignment: Alignment.topRight,
-  //       margin: EdgeInsets.only(top: 20),
-  //       backGroundColor: Colors.blueAccent,
-  //       child: Container(
-  //         constraints: BoxConstraints(
-  //           maxWidth: MediaQuery.of(context).size.width * 0.7,
-  //         ),
-  //         child: Text(
-  //           text,
-  //           style: TextStyle(color: Colors.white),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-//   Widget _buildImageMessage(String imagePath, String? caption) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-//       child: ChatBubble(
-//         clipper: ChatBubbleClipper9(type: BubbleType.sendBubble),
-//         alignment: Alignment.topRight,
-//         margin: const EdgeInsets.only(top: 20),
-//         backGroundColor: Colors.blueAccent,
-//         child: Container(
-//           constraints: BoxConstraints(
-//             maxWidth: MediaQuery.of(context).size.width * 0.7,
-//           ),
-//           child: Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.end,
-//               children: [
-//                 ClipRRect(
-//                   borderRadius: BorderRadius.circular(12.0),
-//                   child: Image.network(
-//                     imagePath,
-//                     width: MediaQuery.of(context).size.width * 0.6,
-//                     fit: BoxFit.cover,
-//                     loadingBuilder: (context, child, progress) {
-//                       return progress == null
-//                           ? child
-//                           : Center(
-//                               child: CircularProgressIndicator(
-//                                 value: progress.expectedTotalBytes != null
-//                                     ? progress.cumulativeBytesLoaded /
-//                                         progress.expectedTotalBytes!
-//                                     : null,
-//                               ),
-//                             );
-//                     },
-//                   ),
-//                 ),
-//                 if (caption != null && caption.isNotEmpty)
-//                   Padding(
-//                     padding: const EdgeInsets.only(top: 4.0),
-//                     child: Text(
-//                       caption,
-//                       style: const TextStyle(color: Colors.white, fontSize: 14),
-//                       textAlign: TextAlign.right,
-//                     ),
-//                   ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildInputBar() {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Row(
-//         children: [
-//           IconButton(
-//             icon: Icon(Icons.photo, color: Colors.blueAccent),
-//             onPressed: () => _chatHelpers.sendImage(
-//               messages: _messages,
-//               updateMessages: _updateMessages,
-//             ),
-//           ),
-//           Expanded(
-//             child: TextField(
-//               controller: _messageController,
-//               decoration: InputDecoration(
-//                 hintText: 'Type a message',
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(24.0),
-//                 ),
-//                 contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-//               ),
-//             ),
-//           ),
-//           IconButton(
-//             icon: Icon(Icons.send, color: Colors.blueAccent),
-//             onPressed: () => _chatHelpers.sendMessage(
-//               controller: _messageController,
-//               messages: _messages,
-//               updateMessages: _updateMessages,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

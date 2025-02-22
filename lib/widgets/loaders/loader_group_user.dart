@@ -14,6 +14,8 @@ class LoaderGroupUser extends StatelessWidget {
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.grey[100]!,
           child: ListTile(
+                       
+            leading: const CircleAvatar(),
             title: Container(height: 16, color: Colors.white),
             subtitle: Container(height: 12, color: Colors.white),
           ),

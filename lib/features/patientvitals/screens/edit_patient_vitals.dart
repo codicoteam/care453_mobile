@@ -2,7 +2,6 @@ import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/features/patientvitals/helpers/patient_vitals_helpers.dart';
 import 'package:care453/models/patient_vitals_model.dart';
-import 'package:care453/models/visit_model.dart';
 import 'package:care453/widgets/custom_description.dart';
 import 'package:care453/widgets/general_button.dart';
 import 'package:flutter/material.dart';

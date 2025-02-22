@@ -1,22 +1,18 @@
-import 'package:care453/core/helpers/genenal_helpers.dart';
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/features/view_care_professionals/Helpers/view_employee_helper.dart';
 import 'package:care453/widgets/custom_button.dart';
-import 'package:care453/widgets/custom_text_field.dart';
 import 'package:care453/widgets/customer_animation/fade_in_slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unicons/unicons.dart';
-
 import '../../../models/employee_model.dart';
 
 class EmployeeProfileScreen extends StatefulWidget {
   final EmployeeModel employeeModel;
   const EmployeeProfileScreen({super.key, required this.employeeModel});
-
   @override
   State<EmployeeProfileScreen> createState() => _EmployeeProfileScreenState();
 }
@@ -40,6 +36,15 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
           SliverAppBar(
             expandedHeight: 300,
             pinned: true,
+            leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Pallete.whiteColor,
+              ),
+            ),
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,

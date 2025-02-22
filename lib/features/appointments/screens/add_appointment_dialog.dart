@@ -15,7 +15,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 
+import '../../../providers/user_provider_class.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/text_field/custom_text_field.dart';
 import '../controllers/appointment_controller.dart';
@@ -48,6 +50,20 @@ class _AddAppointmentDialogState extends State<AddAppointmentDialog> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Pallete.originBlue, // Header background color
+              onPrimary: Colors.white, // Header text color
+              onSurface: Colors.black, // Body text color
+            ),
+            dialogBackgroundColor:
+                Colors.white, // Background color of the dialog
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedDate != null) {
       setState(() {
@@ -55,10 +71,25 @@ class _AddAppointmentDialogState extends State<AddAppointmentDialog> {
       });
     }
   }
+
   void _selectTime() async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Pallete.originBlue, // Header background color
+              onPrimary: Colors.white, // Header text color
+              onSurface: Colors.black, // Body text color
+            ),
+            dialogBackgroundColor:
+                Colors.white, // Background color of the dialog
+          ),
+          child: child!,
+        );
+      },
     );
     if (pickedTime != null) {
       setState(() {
@@ -66,6 +97,7 @@ class _AddAppointmentDialogState extends State<AddAppointmentDialog> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -210,7 +242,7 @@ class _AddAppointmentDialogState extends State<AddAppointmentDialog> {
                 ),
               ).animate().slideX(begin: 0.1, duration: 300.ms),
 
-                            const SizedBox(height: 15),
+              const SizedBox(height: 15),
               // Bay I
               CustomDescriptionField(
                 labelText: 'Street Address',
@@ -284,9 +316,23 @@ class _AddAppointmentDialogState extends State<AddAppointmentDialog> {
                           duration: const Duration(seconds: 5),
                           backgroundColor: Pallete.originBlue,
                         );
-                      }
-                      else{
-                        appointmentHelper.validateAndSubmitForm(clientId: "676297d66ec829a1a595dca6", visitDate: _dateController.text, visitTime: _timeController.text, serviceType: serviceType!, status: "Pending", paymentStatus: "Pending", street: _streetcontroller.text, city: "$cityValue $countryValue", state: stateValue!, latitude:  deliveryPoint!.latitude, longtitude: deliveryPoint!.longitude, moreInfo: _descriptionontroller.text);
+                      } else {
+                        final user =
+                            Provider.of<UserProvider>(context, listen: false)
+                                .user; // Use listen: false
+                        appointmentHelper.validateAndSubmitForm(
+                            clientId: "${user?.id}",
+                            visitDate: _dateController.text,
+                            visitTime: _timeController.text,
+                            serviceType: serviceType!,
+                            status: "Pending",
+                            paymentStatus: "Pending",
+                            street: _streetcontroller.text,
+                            city: "$cityValue $countryValue",
+                            state: stateValue!,
+                            latitude: deliveryPoint!.latitude,
+                            longtitude: deliveryPoint!.longitude,
+                            moreInfo: _descriptionontroller.text);
                         Get.back();
                       }
                     },

@@ -1,24 +1,27 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/casched_data.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
+import 'package:care453/features/about_app/screens/about_screen.dart';
 import 'package:care453/features/auth/Services/auth_services.dart';
 import 'package:care453/features/profile_management/screens/cleint_profile_screen.dart';
-import 'package:care453/features/visits_management/screens/client_all_visits.dart';
+import 'package:care453/features/profile_management/screens/employee_profile_screen.dart';
 import 'package:care453/features/visits_management/screens/employee_all_visit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../features/payment_management/screens/employee_payment_main_screen.dart';
 import '../features/splash/role_selection.dart';
+import '../providers/user_provider_class.dart';
 
 class DrawerEmployee extends StatelessWidget {
   DrawerEmployee({super.key});
 
-  User? user = FirebaseAuth.instance.currentUser;
-
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.70, //set dawer width
       elevation: 3,
@@ -32,7 +35,7 @@ class DrawerEmployee extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Profile()));
-                    Get.to(CreateProfileClient());
+                    Get.to(EmployeeProfileDetailScreen());
                   },
                   child: Column(
                     children: <Widget>[
@@ -55,20 +58,14 @@ class DrawerEmployee extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "${user!.displayName}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
+                        height: 15,
                       ),
                       Text(
                         "${user!.email}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.poppins(
+                          color: Pallete.blackColor,
                           fontSize: 15,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
@@ -152,6 +149,8 @@ class DrawerEmployee extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                Get.to(AboutAppScreen());
+
                 // Helpers.temporaryNavigator(context, TripsTab());
                 // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUs()));
               },
@@ -196,14 +195,18 @@ class DrawerEmployee extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
-                  final result = await AuthServices.signOut();
                   await CacheUtils.clearCachedRole();
                   await CacheUtils.updateOnboardingStatus(false);
-                  if (result.success) {
-                    Get.to(InitialRoleSelectionScreen());
-                  } else {
-                    Get.snackbar('Error', "ocurredgfd");
-                  }
+                  await CacheUtils.clearCachedToken();
+                  Get.off(InitialRoleSelectionScreen());
+                  Get.snackbar(
+                    'Success',
+                    'You are logged out',
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    duration: const Duration(seconds: 5),
+                    backgroundColor: Pallete.originBlue,
+                  );
                 }),
             Divider(
               color: Pallete.originBlue.withOpacity(0.5),

@@ -1,10 +1,11 @@
 import 'package:care453/core/utils/casched_data.dart';
-import 'package:care453/features/auth/Handler/auth_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+
+import '../auth/Screens/sign_in_employeee.dart';
 
 class EmployeeIntroductionScreen extends StatefulWidget {
   const EmployeeIntroductionScreen({super.key});
@@ -14,7 +15,8 @@ class EmployeeIntroductionScreen extends StatefulWidget {
       EmployeeIntroductionScreenState();
 }
 
-class EmployeeIntroductionScreenState extends State<EmployeeIntroductionScreen> {
+class EmployeeIntroductionScreenState
+    extends State<EmployeeIntroductionScreen> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   void _onIntroEnd(context) {
@@ -29,13 +31,13 @@ class EmployeeIntroductionScreenState extends State<EmployeeIntroductionScreen> 
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+    const bodyStyle = TextStyle(fontSize: 14.0);
 
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(
           fontSize: 25.0,
           fontWeight: FontWeight.w700,
-          color: Color.fromARGB(255, 245, 36, 21)),
+          color: Color.fromARGB(255, 9, 104, 247)),
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
@@ -55,39 +57,41 @@ class EmployeeIntroductionScreenState extends State<EmployeeIntroductionScreen> 
       globalFooter: SizedBox(),
       pages: [
         PageViewModel(
-          title: "Fidelity Insurance",
+          title: "Care 453 Health Company",
           body:
-              "Fidelity Insurance: Unlock your dream home with Vaka Yako housing plan.",
-          image: _buildImage('vakayako.png'),
+              "Providing dedicated and professional care to patients in their homes, ensuring their comfort and well-being.",
+          image: _buildImage('house.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Fidelity Insurance",
-          body: "Empowering students' dreams with educational loan provisions",
-          image: _buildImage('education.png'),
-          decoration: pageDecoration,
-        ),
-        PageViewModel(
-          title: "Fidelity Insurance",
-          body: "Caring for your health with comprehensive medical aid.",
-          image: _buildImage('medicalaid.png'),
-          decoration: pageDecoration,
-        ),
-        PageViewModel(
-          title: "Fidelity Company",
+          title: "Care 453 Health Company",
           body:
-              "We invest wisely for thousands of workers, to ensure they enjoy the fruits of their labours.",
-          image: _buildImage('investmentplan.png'),
+              "Empowering you as a caregiver to deliver personalized and attentive care to patients at home.",
+          image: _buildImage('house.png'),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Care 453 Health Company",
+          body:
+              "Supporting you in providing comprehensive health assistance to patients in a home-based setting.",
+          image: _buildImage('nurses.png'),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Care 453 Health Company",
+          body:
+              "Investing in your professional growth as a caregiver to enhance the quality of care you provide.",
+          image: _buildImage('admin3.png'),
           decoration: pageDecoration.copyWith(
             bodyFlex: 4,
             imageFlex: 4,
           ),
         ),
         PageViewModel(
-          title: "Fidelity Company",
+          title: "Care 453 Health Company",
           body:
-              "Safeguarding your future with reliable and comprehensive life insurance coverage.",
-          image: _buildImage('life.png'),
+              "Equipping you with the tools and resources needed to deliver reliable and compassionate care.",
+          image: _buildImage('care_image.png'),
           decoration: pageDecoration.copyWith(
             bodyFlex: 4,
             imageFlex: 4,
@@ -96,22 +100,29 @@ class EmployeeIntroductionScreenState extends State<EmployeeIntroductionScreen> 
       ],
       onDone: () async {
         await CacheUtils.updateOnboardingStatus(true).then((_) {
-          Get.to(AuthHandler());
+          Get.off(LoginEmployee());
         });
       },
-      onSkip:  () async {
+      onSkip: () async {
         await CacheUtils.updateOnboardingStatus(true).then((_) {
-          Get.to(AuthHandler());
-        });},// You can override onSkip callback
+          Get.off(LoginEmployee());
+        });
+      }, // You can override onSkip callback
       showSkipButton: true,
       skipOrBackFlex: 0,
       nextFlex: 0,
       showBackButton: false,
       //rtl: true, // Display as right-to-left
       back: const Icon(Icons.arrow_back),
-      skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: const Text('Skip',
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Color.fromARGB(255, 9, 104, 247))),
       next: const Icon(Icons.arrow_forward),
-      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+      done: const Text('Done',
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Color.fromARGB(255, 9, 104, 247))),
       curve: Curves.fastLinearToSlowEaseIn,
       controlsMargin: const EdgeInsets.all(16),
       controlsPadding: kIsWeb
@@ -120,6 +131,7 @@ class EmployeeIntroductionScreenState extends State<EmployeeIntroductionScreen> 
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
         color: Color(0xFFBDBDBD),
+        activeColor: Color.fromARGB(255, 9, 104, 247),
         activeSize: Size(22.0, 10.0),
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),

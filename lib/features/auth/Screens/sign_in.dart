@@ -3,6 +3,7 @@ import 'package:care453/features/auth/Controller/auth_controller.dart';
 import 'package:care453/features/auth/Handler/auth_handler.dart';
 import 'package:care453/models/select_user_enum.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
+import 'package:care453/widgets/custom_password_textfield.dart';
 import 'package:care453/widgets/customer_animation/fade_in_slide.dart';
 import 'package:care453/features/auth/Screens/forgot_password.dart';
 import 'package:care453/features/auth/Screens/sign_up_page.dart';
@@ -106,7 +107,7 @@ class _LoginState extends State<Login> {
                   ),
                   FadeInSlide(
                     duration: 1.6,
-                    child: CustomTextField(
+                    child: CustomPasswordTextfield(
                       controller: passwordController,
                       obscureText: true,
                       labelText: 'password',
@@ -151,11 +152,11 @@ class _LoginState extends State<Login> {
                                 fontSize: 12,
                                 color: Pallete.lightPrimaryTextColor),
                             children: [
-                              TextSpan(
-                                  text: "Forgot Password?",
-                                  style: GoogleFonts.poppins(
-                                      color: Pallete.originBlue,
-                                      fontWeight: FontWeight.w400))
+                              // TextSpan(
+                              //     text: "Forgot Password?",
+                              //     style: GoogleFonts.poppins(
+                              //         color: Pallete.originBlue,
+                              //         fontWeight: FontWeight.w400))
                             ]),
                       ),
                     ),
@@ -204,50 +205,7 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 8,
                 ),
-                FadeInSlide(
-                  duration: 2.6,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (context) {
-                                return const CustomLoader(
-                                    message: 'Logging in');
-                              });
-                          // await AuthServices.signInWithGoogle(
-                          //   context: context
-                          // );
-                        },
-                        child: Image.asset(
-                          "assets/images/google_icon.png",
-                          width: 40,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      const Icon(
-                        FontAwesomeIcons.facebook,
-                        color: Colors.blue,
-                        size: 40,
-                      ),
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      const Icon(
-                        FontAwesomeIcons.apple,
-                        size: 40,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
+              
                 FadeInSlide(
                   duration: 2.8,
                   child: Row(
@@ -312,7 +270,7 @@ class _LoginState extends State<Login> {
                 FadeInSlide(
                   duration: 3.2,
                   child: Text(
-                    'By proceeding you consent to get calls, WhatsApp or SMS messages including by automated means from Markiti and its affiliated to the number provided',
+                    'By proceeding you consent to get calls, WhatsApp or SMS messages including by automated means from Care453 and its affiliated to the number provided',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                         color: Pallete.lightPrimaryTextColor, fontSize: 9.61),

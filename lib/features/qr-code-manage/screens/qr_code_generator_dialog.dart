@@ -1,17 +1,10 @@
-import 'dart:typed_data';
-
-import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/models/visit_model.dart';
-import 'package:care453/widgets/general_button.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 class QrCodeGeneratorDialog extends StatefulWidget {

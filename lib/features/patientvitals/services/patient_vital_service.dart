@@ -3,15 +3,17 @@ import 'package:care453/core/constants/api_keys.dart';
 import 'package:care453/models/patient_vitals_model.dart';
 import '../../../core/utils/api_response/ap_response.dart';
 import 'package:http/http.dart' as http;
+import '../../../core/utils/casched_data.dart';
 import '../../../core/utils/logs.dart';
 
 class PatientVitalService {
   static Future<APIResponse<List<PatientVitalsModel>>>
       fetchPatientVitalsByEmployeeId(String clientId) async {
+    final token = await CacheUtils.checkToken();
     final String url =
         '${ApiKeys.baseUrl}/patient_vitals_route/patient/$clientId';
     final headers = {
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
@@ -54,10 +56,12 @@ class PatientVitalService {
 
   static Future<APIResponse<List<PatientVitalsModel>>>
       fetchPatientVitalsByVisitId(String clientId) async {
+    final token = await CacheUtils.checkToken();
+
     final String url =
         '${ApiKeys.baseUrl}/patient_vitals_route/visit/$clientId';
     final headers = {
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
@@ -109,10 +113,12 @@ class PatientVitalService {
     required double oxygenSaturation,
     required String notes,
   }) async {
+        final token = await CacheUtils.checkToken();
+
     const String url = '${ApiKeys.baseUrl}/patient_vitals_route/create';
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
 
     final body = json.encode({
@@ -167,11 +173,13 @@ class PatientVitalService {
     required double oxygenSaturation,
     required String notes,
   }) async {
+        final token = await CacheUtils.checkToken();
+
     final String url =
         '${ApiKeys.baseUrl}/patient_vitals_route/update/$patientVitalsid';
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
 
     final body = json.encode({

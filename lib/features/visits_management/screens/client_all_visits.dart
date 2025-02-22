@@ -7,7 +7,9 @@ import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../core/utils/colors/pallete.dart';
+import '../../../providers/user_provider_class.dart';
 import '../../../widgets/error_widgets/error_widget.dart';
 import '../../../widgets/loaders/loader_widget.dart';
 
@@ -38,16 +40,20 @@ class _ViewAllVisitScreenState extends State<ViewAllVisitScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: _requestStatus.length, vsync: this);
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      visitController.getAllVisitsForClient();
+      visitController.getAllVisitsForClient(clientId: "${user!.id}");
     });
   }
+
   @override
   void dispose() {
     _searchController.dispose();
     _tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +99,8 @@ class _ViewAllVisitScreenState extends State<ViewAllVisitScreen>
                           EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: CustomTextField(
                         labelText: 'Search',
-                        prefixIcon: Icon(Icons.search, color: Pallete.whiteColor),
+                        prefixIcon:
+                            Icon(Icons.search, color: Pallete.whiteColor),
                       )),
                   TabBar(
                     controller: _tabController,
@@ -128,14 +135,15 @@ class _ViewAllVisitScreenState extends State<ViewAllVisitScreen>
           }
 
           if (visitController.errorMessage.isNotEmpty) {
+            final user = Provider.of<UserProvider>(context, listen: false).user;
+
             return ApiFailureWidget(onRetry: () {
               visitController.errorMessage.value = "";
-              visitController.getAllVisitsForClient();
+              visitController.getAllVisitsForClient(clientId: '${user?.id}');
             });
           }
 
-          final filteredTrips =
-              visitController.visits.where((employeeModel) {
+          final filteredTrips = visitController.visits.where((employeeModel) {
             final categoryMatch = _selectedStatus == 'All' ||
                 (employeeModel.status ?? '').toLowerCase() ==
                     _selectedStatus.toLowerCase();
@@ -150,6 +158,7 @@ class _ViewAllVisitScreenState extends State<ViewAllVisitScreen>
 
             return categoryMatch && searchMatch;
           }).toList();
+          final user = Provider.of<UserProvider>(context, listen: false).user;
 
           return filteredTrips.isEmpty
               ? const EmptyStateWidget(
@@ -159,8 +168,9 @@ class _ViewAllVisitScreenState extends State<ViewAllVisitScreen>
                       'There are no requests matching your search or category.',
                 )
               : RefreshIndicator(
-                color: Pallete.originBlue,
-                  onRefresh: () => visitController.refreshTrips(),
+                  color: Pallete.originBlue,
+                  onRefresh: () =>
+                      visitController.refreshTrips(clientId: '${user?.id}'),
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: filteredTrips.length,
@@ -170,7 +180,9 @@ class _ViewAllVisitScreenState extends State<ViewAllVisitScreen>
                       return VisitCard(
                         visitModel: visit,
                         onTap: () {
-                          Get.to(DetailVisit(visitModel: visit,));
+                          Get.to(DetailVisit(
+                            visitModel: visit,
+                          ));
                           // Get.toNamed(RoutesHelper.clientShuttleDetailsScreen, arguments: shuttle);
                         },
                       );
@@ -179,7 +191,6 @@ class _ViewAllVisitScreenState extends State<ViewAllVisitScreen>
                 );
         }),
       ),
-   
     );
   }
 }

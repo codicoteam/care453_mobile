@@ -1,27 +1,23 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/features/visits_management/controller/visit_controller.dart';
-import 'package:care453/features/visits_management/screens/detail_visit.dart';
-import 'package:care453/widgets/cards/visit_card.dart';
 import 'package:care453/widgets/cards/visit_card_for_employee.dart';
 import 'package:care453/widgets/custom_text_field.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:provider/provider.dart';
 import '../../../core/utils/colors/pallete.dart';
+import '../../../providers/user_provider_class.dart';
 import '../../../widgets/error_widgets/error_widget.dart';
 import '../../../widgets/loaders/loader_widget.dart';
 import 'detail_visit_for_employee.dart';
-
 class ViewAllVisitsForEmployee extends StatefulWidget {
   const ViewAllVisitsForEmployee({super.key});
-
   @override
   State<ViewAllVisitsForEmployee> createState() =>
       _ViewAllVisitsForEmployeeState();
 }
-
 class _ViewAllVisitsForEmployeeState extends State<ViewAllVisitsForEmployee>
     with SingleTickerProviderStateMixin {
   final visitController = Get.find<VisitController>();
@@ -39,21 +35,18 @@ class _ViewAllVisitsForEmployeeState extends State<ViewAllVisitsForEmployee>
   @override
   void initState() {
     super.initState();
-
+    final user = Provider.of<UserProvider>(context, listen: false).user;
     _tabController = TabController(length: _requestStatus.length, vsync: this);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      visitController.getAllVisitsForEmployee();
+      visitController.getAllVisitsForEmployee(employeeid: '${user?.id}');
     });
   }
-
   @override
   void dispose() {
     _searchController.dispose();
     _tabController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,9 +128,12 @@ class _ViewAllVisitsForEmployeeState extends State<ViewAllVisitsForEmployee>
           }
 
           if (visitController.errorMessage.isNotEmpty) {
+            final user = Provider.of<UserProvider>(context, listen: false).user;
+
             return ApiFailureWidget(onRetry: () {
               visitController.errorMessage.value = "";
-              visitController.getAllVisitsForEmployee();
+              visitController.getAllVisitsForEmployee(
+                  employeeid: '${user?.id}');
             });
           }
 
@@ -156,6 +152,8 @@ class _ViewAllVisitsForEmployeeState extends State<ViewAllVisitsForEmployee>
 
             return categoryMatch && searchMatch;
           }).toList();
+          final user = Provider.of<UserProvider>(context, listen: false).user;
+
           return filteredTrips.isEmpty
               ? const EmptyStateWidget(
                   icon: LocalImageConstants.notFoundIcon,
@@ -165,7 +163,8 @@ class _ViewAllVisitsForEmployeeState extends State<ViewAllVisitsForEmployee>
                 )
               : RefreshIndicator(
                   color: Pallete.originBlue,
-                  onRefresh: () => visitController.refreshEmployeeVisits(),
+                  onRefresh: () => visitController.refreshEmployeeVisits(
+                      employeeid: '${user?.id}'),
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: filteredTrips.length,

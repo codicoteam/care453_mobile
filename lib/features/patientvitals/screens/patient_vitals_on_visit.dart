@@ -1,16 +1,11 @@
 import 'package:care453/core/utils/colors/pallete.dart';
-import 'package:care453/features/visits_management/controller/visit_controller.dart';
 import 'package:care453/models/visit_model.dart';
-import 'package:care453/widgets/cards/medication_card_for_client.dart';
-import 'package:care453/widgets/cards/task_card_for_client.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:care453/widgets/error_widgets/error_widget.dart';
 import 'package:care453/widgets/loaders/loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../../core/utils/asset_utils/image_util.dart';
-import '../../../../../widgets/cards/observation_card_for_client.dart';
 import '../../../widgets/cards/patient_vitals_card.dart';
 import '../controllers/patient_vitals_controllers.dart';
 import 'view_patient_vitals_details_dialog.dart';

@@ -7,23 +7,18 @@
 // import 'package:get/get.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:shimmer/shimmer.dart';
-
 // import 'tabs/medication/medication_assigned_screen.dart';
 // import 'tabs/observation/observation_screens.dart';
 // import 'visits_management/screens/tabs/observation/observation_screens.dart';
-
 // class DetailVisit extends StatefulWidget {
 //   final VisitModel visitModel;
 //   const DetailVisit({super.key, required this.visitModel});
-
 //   @override
 //   State<DetailVisit> createState() => _DetailVisitState();
 // }
-
 // class _DetailVisitState extends State<DetailVisit>
 //     with SingleTickerProviderStateMixin {
 //   late TabController _tabController;
-
 //  @override
 //   void initState() {
 //     super.initState();
@@ -32,14 +27,11 @@
 //       vsync: this,
 //     );
 //   }
-
-
 //   @override
 //   void dispose() {
 //     _tabController.dispose();
 //     super.dispose();
 //   }
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(

@@ -1,21 +1,13 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
-import 'package:care453/features/appointments/screens/appointment_all_screen.dart';
-import 'package:care453/features/view_care_professionals/screens/view_all_employee_screen.dart';
 import 'package:care453/models/patient_vitals_model.dart';
-import 'package:care453/models/visit_model.dart';
-import 'package:care453/widgets/custom_button.dart';
-import 'package:care453/widgets/custom_description.dart';
 import 'package:care453/widgets/customer_animation/fade_in_slide.dart';
 import 'package:care453/widgets/customer_animation/rightbounce_animation.dart';
-import 'package:care453/widgets/general_button.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class ViewPatientVitalsDetailsDialog extends StatefulWidget {
   final PatientVitalsModel patientVitalsModel;

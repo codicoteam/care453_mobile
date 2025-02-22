@@ -1,13 +1,13 @@
 import 'package:care453/core/utils/asset_utils/image_util.dart';
-import 'package:care453/features/assessment_management/controller/assessment_controller.dart';
 import 'package:care453/features/runner_management/screens/all_visits_in_runner.dart';
-import 'package:care453/widgets/cards/assessment_card.dart';
 import 'package:care453/widgets/custom_text_field.dart';
 import 'package:care453/widgets/empty_widget/empty_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../../core/utils/colors/pallete.dart';
+import '../../../providers/user_provider_class.dart';
 import '../../../widgets/cards/runnner_card.dart';
 import '../../../widgets/error_widgets/error_widget.dart';
 import '../../../widgets/loaders/loader_widget.dart';
@@ -38,11 +38,12 @@ class _AllRunnerEmployeeScreenState extends State<AllRunnerEmployeeScreen>
   @override
   void initState() {
     super.initState();
+    final user = Provider.of<UserProvider>(context, listen: false).user;
 
     _tabController = TabController(length: _requestStatus.length, vsync: this);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      runnerController.getAllAllRunnersForEmployee("6763fbc6d9c0556eaea94214");
+      runnerController.getAllAllRunnersForEmployee("${user?.id}");
     });
   }
 
@@ -133,10 +134,11 @@ class _AllRunnerEmployeeScreenState extends State<AllRunnerEmployeeScreen>
             return const VehicleLoader();
           }
           if (runnerController.errorMessage.isNotEmpty) {
+            final user = Provider.of<UserProvider>(context, listen: false).user;
+
             return ApiFailureWidget(onRetry: () {
               runnerController.errorMessage.value = "";
-              runnerController
-                  .getAllAllRunnersForEmployee("6763fbc6d9c0556eaea94214");
+              runnerController.getAllAllRunnersForEmployee("${user!.id}");
             });
           }
           final filteredAssessments =
@@ -150,7 +152,7 @@ class _AllRunnerEmployeeScreenState extends State<AllRunnerEmployeeScreen>
             }
             return true; // For "All", include all runners
           }).toList();
-
+                final user = Provider.of<UserProvider>(context, listen: false).user;
           return filteredAssessments.isEmpty
               ? const EmptyStateWidget(
                   icon: LocalImageConstants.notFoundIcon,
@@ -161,7 +163,7 @@ class _AllRunnerEmployeeScreenState extends State<AllRunnerEmployeeScreen>
               : RefreshIndicator(
                   color: Pallete.originBlue,
                   onRefresh: () => runnerController
-                      .refreshRunners("6763fbc6d9c0556eaea94214"),
+                      .refreshRunners("${user!.id}"),
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: filteredAssessments.length,

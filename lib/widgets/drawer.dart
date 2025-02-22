@@ -1,27 +1,27 @@
-import 'package:care453/core/helpers/genenal_helpers.dart';
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/casched_data.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
-import 'package:care453/features/auth/Services/auth_services.dart';
 import 'package:care453/features/message_management/screens/chat_screen.dart';
 import 'package:care453/features/profile_management/screens/cleint_profile_screen.dart';
 import 'package:care453/features/visits_management/screens/client_all_visits.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:unicons/unicons.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../features/about_app/screens/about_screen.dart';
+import '../features/faq/screens/faq_screen.dart';
 import '../features/patientvitals/screens/dashboard_patient_vitals.dart';
 import '../features/splash/role_selection.dart';
+import '../providers/user_provider_class.dart';
 
 class DrawerComponent2 extends StatelessWidget {
   DrawerComponent2({super.key});
 
-  User? user = FirebaseAuth.instance.currentUser;
-
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.70, //set dawer width
       elevation: 3,
@@ -58,29 +58,20 @@ class DrawerComponent2 extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        "${user!.displayName}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
+                        height: 15,
                       ),
                       Text(
                         "${user!.email}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                        style: GoogleFonts.poppins(
+                          color: Pallete.blackColor,
                           fontSize: 15,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 5,
             ),
 
             Divider(
@@ -177,7 +168,7 @@ class DrawerComponent2 extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Get.to(ChatScreen());
+                Get.to(ChatScreen(groupId: "${user?.id}", userId: "${user?.id}", fullName: '${user?.firstName} ${user?.firstName}',));
               },
             ),
 
@@ -199,10 +190,10 @@ class DrawerComponent2 extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                Get.to(FAQScreen());
                 // Navigator.of(context).push(MaterialPageRoute(builder: (context) => GeolocatorWidget()));
               },
             ),
-
             ListTile(
               leading: Container(
                 height: 35,
@@ -221,6 +212,8 @@ class DrawerComponent2 extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                Get.to(AboutAppScreen());
+                // AboutAppScreen
                 // Helpers.temporaryNavigator(context, TripsTab());
                 // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutUs()));
               },
@@ -244,14 +237,18 @@ class DrawerComponent2 extends StatelessWidget {
                   ),
                 ),
                 onTap: () async {
-                  final result = await AuthServices.signOut();
                   await CacheUtils.clearCachedRole();
                   await CacheUtils.updateOnboardingStatus(false);
-                  if (result.success) {
-                    Get.to(InitialRoleSelectionScreen());
-                  } else {
-                    Get.snackbar('Error', "ocurredgfd");
-                  }
+                  await CacheUtils.clearCachedToken();
+                  Get.off(InitialRoleSelectionScreen());
+                  Get.snackbar(
+                    'Success',
+                    'You are logged out',
+                    colorText: Colors.white,
+                    snackPosition: SnackPosition.BOTTOM,
+                    duration: const Duration(seconds: 5),
+                    backgroundColor: Pallete.originBlue,
+                  );
                 }),
             Divider(
               color: Pallete.originBlue.withOpacity(0.5),

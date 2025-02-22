@@ -3,6 +3,8 @@ import 'package:care453/core/constants/api_keys.dart';
 import 'package:care453/core/utils/api_response/ap_response.dart';
 import 'package:care453/core/utils/logs.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../core/utils/casched_data.dart';
 class ObservationService {
   static Future<APIResponse<String>> addObservations({
     required String visitId,
@@ -11,11 +13,13 @@ class ObservationService {
     required String date,
     required List<String> images,
   }) async {
+            final token = await CacheUtils.checkToken();
+
     const String url =
-        '${ApiKeys.baseUrl}/api/v1/observation_route/create';
+        '${ApiKeys.baseUrl}/observation_route/create';
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
     final body = json.encode({
       "visitId": visitId,

@@ -11,6 +11,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:care453/widgets/dashboards_widget/line_chart.dart';
+import 'package:provider/provider.dart';
+import '../../../providers/user_provider_class.dart';
 import '../controllers/patient_vitals_controllers.dart';
 import 'view_patient_vitals_details_dialog.dart';
 
@@ -30,9 +32,10 @@ class _DashboardPatientVitalsState extends State<DashboardPatientVitals>
   @override
   void initState() {
     super.initState();
+    final user = Provider.of<UserProvider>(context, listen: false).user;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       patientVitalsController
-          .getAllPatientVitalsForClient("676297d66ec829a1a595dca6");
+          .getAllPatientVitalsForClient("${user?.id}");
     });
   }
 

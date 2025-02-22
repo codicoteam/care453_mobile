@@ -1,26 +1,33 @@
-import 'package:care453/features/Home/admin_main_home.dart';
-import 'package:care453/features/Home/client_main_screen.dart';
-import 'package:care453/features/auth/Helpers/auth_helpers.dart';
-import 'package:care453/features/auth/Screens/sign_in.dart';
+import 'package:care453/features/auth/Screens/sign_in_employeee.dart';
 import 'package:care453/features/splash/role_selection.dart';
+import 'package:care453/features/welcome/client_introduction_screen.dart';
 import 'package:care453/features/welcome/employee_introduction_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../core/utils/casched_data.dart';
 import '../../../models/select_user_enum.dart';
-import '../../welcome/client_introduction_screen.dart';
+import '../../../models/user_model.dart';
+import '../../../providers/user_provider_class.dart';
+import '../Screens/sign_in.dart';
+import '../../Home/client_main_screen.dart';
+import '../../Home/admin_main_home.dart';
 
 class AuthHandler extends StatelessWidget {
   const AuthHandler({Key? key}) : super(key: key);
 
-  Future<User?> _getCurrentUser() async {
-    try {
-      return FirebaseAuth.instance.currentUser;
-    } catch (e) {
-      return null;
+  Future<UserModel?> _getUserFromToken() async {
+    final token = await CacheUtils.checkToken();
+    if (token != null && token.isNotEmpty) {
+      if (JwtDecoder.isExpired(token)) {
+        await CacheUtils.clearCachedToken();
+        return null; // Token expired, navigate to Login
+      } else {
+        final decodedToken = JwtDecoder.decode(token);
+        return UserModel.fromMap(decodedToken);
+      }
     }
+    return null; // No token found, navigate to Login
   }
 
   @override
@@ -30,17 +37,14 @@ class AuthHandler extends StatelessWidget {
       builder: (context, roleSnapshot) {
         if (roleSnapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            body: const Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: const Center(child: CircularProgressIndicator()),
           );
         }
 
         final userRole = roleSnapshot.data;
 
         if (userRole == null) {
-          return const InitialRoleSelectionScreen();
+          return const InitialRoleSelectionScreen(); // No role selected, navigate to role selection
         }
 
         return FutureBuilder<bool>(
@@ -57,35 +61,38 @@ class AuthHandler extends StatelessWidget {
 
             final hasSeenOnboarding = onboardingSnapshot.data ?? false;
 
-            return FutureBuilder<User?>(
-              future: _getCurrentUser(),
-              builder: (context, userSnapshot) {
-                if (userSnapshot.connectionState == ConnectionState.waiting) {
+            if (!hasSeenOnboarding) {
+              return userRole == UserRole.careProfessioner
+                  ? const EmployeeIntroductionScreen()
+                  : const ClientIntroductionScreen();
+            }
+
+            return FutureBuilder<UserModel?>(
+              future: _getUserFromToken(),
+              builder: (context, tokenSnapshot) {
+                if (tokenSnapshot.connectionState == ConnectionState.waiting) {
                   return Scaffold(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    body: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    body: const Center(child: CircularProgressIndicator()),
                   );
                 }
 
-                if (userSnapshot.hasData) {
-                  final user = userSnapshot.data!;
-                  WidgetsBinding.instance.addPostFrameCallback((_) async {
-                    if (!user.emailVerified) {
-                      AuthHelpers.handleEmailVerification(context, user);
-                    }
-                  });
+                if (!tokenSnapshot.hasData) {
                   return userRole == UserRole.client
-                      ? const ClientMainScreen()
-                      : const EmployeeMainScreen();
-                } else {
-                  return hasSeenOnboarding
                       ? const Login()
-                      : userRole == UserRole.careProfessioner
-                          ? const EmployeeIntroductionScreen()
-                          : const ClientIntroductionScreen();
+                      : const LoginEmployee();
+
+                  // No valid token or token expired
                 }
+
+                final user = tokenSnapshot.data!;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Provider.of<UserProvider>(context, listen: false)
+                      .setUser(user);
+                });
+
+                return userRole == UserRole.careProfessioner
+                    ? const EmployeeMainScreen()
+                    : const ClientMainScreen();
               },
             );
           },
@@ -94,3 +101,4 @@ class AuthHandler extends StatelessWidget {
     );
   }
 }
+

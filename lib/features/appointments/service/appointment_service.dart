@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'package:care453/core/constants/api_keys.dart';
 import 'package:care453/core/utils/api_response/ap_response.dart';
+import 'package:care453/core/utils/casched_data.dart';
 import 'package:care453/core/utils/logs.dart';
 import 'package:care453/models/assesment_model.dart';
 import 'package:http/http.dart' as http;
@@ -11,9 +12,11 @@ import '../../../models/get_task_model.dart';
 class AppointmentService {
   static Future<APIResponse<List<AppointmentModel>>> fetchAppointmentForClient(
       String employeeId) async {
+    final token = await CacheUtils.checkToken();
+
     final String url = '${ApiKeys.baseUrl}/booking_route/client/$employeeId';
     final headers = {
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
@@ -69,12 +72,12 @@ class AppointmentService {
     required double longtitude,
     required String moreInfo,
   }) async {
-    const String url =
-        '${ApiKeys.baseUrl}/booking_route/create';
+    const String url = '${ApiKeys.baseUrl}/booking_route/create';
+    final token = await CacheUtils.checkToken();
+
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization':
-          'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
     final body = json.encode({
       "clientId": clientId,
@@ -120,17 +123,17 @@ class AppointmentService {
     }
   }
 
-
-
-
   static Future<APIResponse<String>> updateAppointmentById({
     required AppointmentModel appointmentModel,
   }) async {
+        final token = await CacheUtils.checkToken();
+
     final String url =
         '${ApiKeys.baseUrl}/booking_route/update/${appointmentModel.id}';
+
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
     final body = json.encode({
       "clientId": appointmentModel.clientId.id,
@@ -176,7 +179,4 @@ class AppointmentService {
       );
     }
   }
-
-
-
 }

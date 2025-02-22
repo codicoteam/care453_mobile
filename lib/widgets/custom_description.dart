@@ -65,7 +65,7 @@ class CustomDescriptionField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide(
-                color: focusedBorderColor ?? Pallete.primaryColor),
+                color: focusedBorderColor ?? Pallete.originBlue),
           ),
           labelText: labelText ?? '',
           labelStyle: labelStyle ??
@@ -73,7 +73,7 @@ class CustomDescriptionField extends StatelessWidget {
         ),
         style: inputTextStyle ??
             TextStyle(
-              color: Pallete.primaryColor,
+              color: Pallete.originBlue,
               fontSize: 12,
             ),
       ),

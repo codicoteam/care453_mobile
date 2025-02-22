@@ -4,11 +4,15 @@ import 'package:care453/core/utils/api_response/ap_response.dart';
 import 'package:care453/models/employee_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../core/utils/casched_data.dart';
+
 class ViewProfessionalService {
   static Future<APIResponse<List<EmployeeModel>>> getAllEmployees() async {
+        final token = await CacheUtils.checkToken();
+
     const String url = '${ApiKeys.baseUrl}/employee/getallemployees';
-    const headers = {
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}'
+    final headers = {
+      'Authorization': 'Bearer ${token}'
     };
 
     try {

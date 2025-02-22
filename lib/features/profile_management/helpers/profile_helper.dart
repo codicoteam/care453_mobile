@@ -1,27 +1,22 @@
 import 'dart:io';
-
-import 'package:care453/core/helpers/genenal_helpers.dart';
 import 'package:care453/core/utils/asset_utils/image_util.dart';
 import 'package:care453/core/utils/colors/pallete.dart';
 import 'package:care453/features/Home/client_main_screen.dart';
 import 'package:care453/widgets/custom_button.dart';
 import 'package:care453/widgets/custom_loader.dart';
-import 'package:firebase_auth/firebase_auth.dart' as FireUser;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../controllers/profile_controllers.dart';
+import 'package:intl/intl.dart'; // Import for date formatting
 
 class ProfileHelper {
   final ProfileController profileController = Get.put(ProfileController());
   final ImagePicker _picker = ImagePicker();
 
-  FireUser.User? user = FirebaseAuth.instance.currentUser;
 
   void validateAndSubmitForm({
     required String email,
@@ -111,7 +106,7 @@ class ProfileHelper {
         gender: gender,
         contactNumber: clientPhoneNumber,
         medicalhistory:medicalhistory,
-        address: "$address",
+        address: address,
         allergies: allergies,
         email: email,
         // email: "${user!.email}",
@@ -134,6 +129,155 @@ class ProfileHelper {
           colorText: Colors.white);
     }
   }
+
+
+
+void validateAndUpdate({
+  required String email,
+  required String medicalhistory,
+  required String firstName,
+  required String gender,
+  required String lastName,
+  required String medicalInfo,
+  required String dateOfBirth,
+  required String address,
+  required String allergies,
+  required String clientPhoneNumber,
+  required String profilePicture,
+  required String confirmPasswordController,
+  required String passwordController,
+}) async {
+  // Validation checks as before...
+
+  if (firstName.isEmpty) {
+    Get.snackbar('Error', 'First name is required.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue);
+    return;
+  }
+  if (lastName.isEmpty) {
+    Get.snackbar('Error', 'Last name is required.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue);
+    return;
+  }
+  if (allergies.isEmpty) {
+    Get.snackbar('Error', 'Allergy required.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+  if (medicalInfo.isEmpty) {
+    Get.snackbar('Error', 'Medical information is required.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+  if (dateOfBirth.isEmpty) {
+    Get.snackbar('Error', 'Date of birth is required.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+
+  // Date Validation: Ensure dateOfBirth is in "yyyy-MM-dd" format and is in the past
+  DateTime? dob;
+  try {
+    dob = DateFormat("yyyy-MM-dd").parseStrict(dateOfBirth);
+  } catch (e) {
+    Get.snackbar('Error', 'Invalid date format. Use yyyy-MM-dd.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+
+  if (dob.isAfter(DateTime.now())) {
+    Get.snackbar('Error', 'Date of birth must be in the past.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+
+  if (address.isEmpty) {
+    Get.snackbar('Error', 'Address is required.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+
+  if (clientPhoneNumber.isEmpty) {
+    Get.snackbar('Error', 'Phone number is required.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+  if (profilePicture.isEmpty) {
+    Get.snackbar(
+      'Error',
+      'Profile picture is required.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Pallete.originBlue,
+      colorText: Colors.white,
+    );
+    return;
+  }
+  if (confirmPasswordController.isEmpty) {
+    Get.snackbar('Error', 'Please confirm your password.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+  if (confirmPasswordController != passwordController) {
+    Get.snackbar('Error', 'Password did not match.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+    return;
+  }
+
+  profileController.isLoading(true);
+  showLoadingDialog(); // Show loading dialog
+  final bool isSuccess = await profileController.updateClientProfile(
+      firstName: firstName,
+      lastName: lastName,
+      medicalAidInfo: medicalInfo,
+      dateOfBirth: dateOfBirth, // Already validated
+      password: passwordController.trim(),
+      profilePicture: profilePicture,
+      gender: gender,
+      contactNumber: clientPhoneNumber,
+      medicalhistory: medicalhistory,
+      address: address,
+      allergies: allergies,
+      email: email,
+  );
+
+  profileController.isLoading(false);
+  hideLoadingDialog(); // Hide loading dialog
+
+  if (isSuccess) {
+    Get.snackbar('Success', profileController.successMessage.value,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+
+    Get.to(ClientMainScreen());
+  } else {
+    Get.snackbar('Error', profileController.errorMessage.value,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Pallete.originBlue,
+        colorText: Colors.white);
+  }
+}
+
 
   void showLoadingDialog() {
     Get.dialog(

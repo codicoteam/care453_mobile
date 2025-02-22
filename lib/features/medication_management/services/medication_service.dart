@@ -4,6 +4,8 @@ import 'package:care453/core/constants/api_keys.dart';
 import 'package:care453/core/utils/api_response/ap_response.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../core/utils/casched_data.dart';
+
 class MedicationService {
   static Future<APIResponse<String>> updateMedicationPerVisit({
     required String medicationId,
@@ -17,6 +19,7 @@ class MedicationService {
     required String status,
   }) async {
     // Define the base URL for your API
+        final token = await CacheUtils.checkToken();
 
     // Properly construct the URL
     final String url = '${ApiKeys.baseUrl}/medication_route/update/$medicationId';
@@ -24,7 +27,7 @@ class MedicationService {
     // Include the JWT token in the headers, not the URL
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${ApiKeys.bearerTokent}',
+      'Authorization': 'Bearer ${token}',
     };
 
     final body = json.encode({

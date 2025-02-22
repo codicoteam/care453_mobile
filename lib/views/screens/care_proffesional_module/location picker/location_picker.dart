@@ -171,7 +171,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     },
                     width: MediaQuery.sizeOf(context).width * 0.5,
                     borderRadius: 10,
-                    btnColor: _selectedPosition != null ? Pallete.primaryColor : Colors.grey,
+                    btnColor: _selectedPosition != null ? Pallete.originBlue : Colors.grey,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -211,7 +211,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     },
                     width: 60,
                     borderRadius: 10,
-                    btnColor: Pallete.primaryColor,
+                    btnColor: Pallete.originBlue,
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -230,7 +230,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     onTap: ()=> _mapController.move(_currentPosition!, 16),
                     width: 60,
                     borderRadius: 10,
-                    btnColor: Pallete.primaryColor,
+                    btnColor: Pallete.originBlue,
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
